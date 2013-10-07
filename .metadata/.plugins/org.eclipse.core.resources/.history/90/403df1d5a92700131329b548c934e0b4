@@ -1,0 +1,12 @@
+package com.tacohen.killbots.Logic;
+
+import android.util.Pair;
+
+public class CurrentPlayerLocation {
+
+		public Pair<Integer, Integer> currentPlayerLocation;
+		
+		public void setPlayerXLocation(Integer xValue){
+			currentPlayerLocation.first = xValue;
+		}
+}

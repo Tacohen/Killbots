@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.tacohen.killbots.Logic.RobotLocations&apos; to &apos;IRobotLocations&apos;&#x0A;- Original project: &apos;Killbots&apos;&#x0A;- Original element: &apos;com.tacohen.killbots.Logic.RobotLocations&apos;&#x0A;- Renamed element: &apos;com.tacohen.killbots.Logic.IRobotLocations&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;RobotLocations&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;com.tacohen.killbots.Logic{RobotLocations.java[RobotLocations" matchStrategy="1" name="IRobotLocations" qualified="false" references="true" similarDeclarations="false" stamp="1380311178616" textual="false" version="1.0"/>
+</session>

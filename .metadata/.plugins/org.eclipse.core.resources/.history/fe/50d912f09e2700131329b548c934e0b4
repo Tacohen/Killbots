@@ -1,0 +1,60 @@
+package com.tacohen.killbots.Logic;
+
+import android.util.Pair;
+
+public class PlayerMovement implements IPlayerMovement{
+
+	@Override
+	public boolean canPlayerMoveLeft(Pair<Integer, Integer> p) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canPlayerMoveRight(Pair<Integer, Integer> p) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canPlayerMoveUp(Pair<Integer, Integer> p) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canPlayerMoveDown(Pair<Integer, Integer> p) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isPlayerTrapped() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setPlayerPosition(Pair<Integer, Integer> p) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Pair getPlayerPosition(Pair<Integer, Integer> p) {
+		return CurrentPlayerLocation.currentPlayerLocation;
+	}
+
+	@Override
+	public boolean isRobotHere(Pair<Integer, Integer> p) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isDeadRobotHere(Pair<Integer, Integer> p) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

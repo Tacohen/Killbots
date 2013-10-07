@@ -1,0 +1,15 @@
+package com.tacohen.killbots.Logic;
+
+import java.util.List;
+
+import android.util.Pair;
+
+public interface RobotLocations {
+	
+	/**
+	 * @return The locations of every live robot in the game
+	 * as a list of location pairs
+	 */
+	public List<Pair> robotLocations();
+
+}

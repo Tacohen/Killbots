@@ -1,0 +1,24 @@
+package com.tacohen.killbots.Logic;
+
+import java.util.List;
+
+import android.util.Pair;
+
+public class RobotLocations implements IRobotLocations{
+	
+	public static List<Pair<Integer, Integer>> liveRobotLocations;
+	public static List<Pair<Integer, Integer>> deadRobotLocations;
+
+	@Override
+	public List<Pair<Integer, Integer>> liveRobotLocations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Pair<Integer, Integer>> deadRobotLocations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

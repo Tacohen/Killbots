@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/binding_dark"
+    >
+ 
+    <com.tacohen.killbots.UI.DashboardLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        
+        
+        <Button android:id="@+id/dashboard_button_playGame"
+            style="@style/DashboardButton"
+            android:text="@string/playGame"
+            android:drawableTop="@drawable/dashboard_button_location" />
+ 
+        <Button android:id="@+id/dashboard_button_howToPlay"
+            style="@style/DashboardButton"
+            android:text="@string/howToPlay"
+            android:drawableTop="@drawable/dashboard_button_travelingwithkids" />
+ 
+        <Button android:id="@+id/dashboard_button_settings"
+            style="@style/DashboardButton"
+            android:text="@string/settings"
+            android:drawableTop="@drawable/dashboard_button_specify_location" />
+ 
+        <Button android:id="@+id/dashboard_button_highScores"
+            style="@style/DashboardButton"
+            android:text="@string/highScores"
+            android:drawableTop="@drawable/dashboard_button_findadestination" />   
+ 
+    </com.tacohen.killbots.UI.DashboardLayout>
+ 
+</LinearLayout>

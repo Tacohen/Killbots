@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Killbots</string>
+    <string name="action_settings">Settings</string>
+    <string name="settings">Settings</string>
+    <string name="howToPlay">How To Play</string>
+    <string name="playGame">Play Killbots</string>
+    <string name="highScores">High Scores</string>
+    <string name="preferences">Preferences</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="trueString">True</string>
+    <string name="falseString">False</string>
+
+</resources>
