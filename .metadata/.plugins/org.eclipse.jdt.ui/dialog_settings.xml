@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<item value="/home/timothy/killbots/Killbots/libs" key="org.eclipse.jdt.ui.lastextjar"/>
 	<section name="OptionalMessageDialog.hide.">
 		<item value="true" key="org.eclipse.jdt.ui.typecomment.deprecated"/>
 	</section>
@@ -15,7 +16,7 @@
 	<section name="JavaElementSearchActions">
 	</section>
 	<section name="BuildPathsPropertyPage">
-		<item value="3" key="pageIndex"/>
+		<item value="0" key="pageIndex"/>
 	</section>
 	<section name="RefactoringWizard.preview">
 		<item value="400" key="height"/>

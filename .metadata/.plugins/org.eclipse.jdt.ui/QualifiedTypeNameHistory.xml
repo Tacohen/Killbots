@@ -16,4 +16,8 @@
 <fullyQualifiedTypeName name="android.util.Pair"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.Random"/>
+<fullyQualifiedTypeName name="at.bartinger.candroid.CandroidActivity"/>
+<fullyQualifiedTypeName name="org.andengine.ui.activity.SimpleBaseGameActivity"/>
+<fullyQualifiedTypeName name="at.bartinger.candroid.renderable.Sprite"/>
+<fullyQualifiedTypeName name="com.tacohen.killbots.Logic.Ring"/>
 </qualifiedTypeNameHistroy>
