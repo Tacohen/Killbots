@@ -48,7 +48,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		    ITexture backgroundTexture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
 		        @Override
 		        public InputStream open() throws IOException {
-		            return getAssets().open("gfx/background-resized.png");
+		            return getAssets().open("gfx/grid-10by10.png");
 		        }
 		    });
 		    ITexture towerTexture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
