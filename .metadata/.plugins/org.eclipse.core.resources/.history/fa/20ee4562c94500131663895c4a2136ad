@@ -121,12 +121,16 @@ public class UICanvas extends SimpleBaseGameActivity {
 		scene.attachChild(mTower3);
 		
 		// 3 - Create the rings
-		
 		Ring player = new Ring(1, 139, 174, this.player, getVertexBufferObjectManager()) {
 		    @Override
 		    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+		        if (((Ring) this.getmStack().peek()).getmWeight() != this.getmWeight())
+		            return false;
 		        this.setPosition(pSceneTouchEvent.getX() - this.getWidth() / 2, 
 		            pSceneTouchEvent.getY() - this.getHeight() / 2);
+		        if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+		            checkForCollisionsWithTowers(this);
+		        }
 		        return true;
 		    }
 		};
