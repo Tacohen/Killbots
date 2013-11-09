@@ -179,13 +179,12 @@ public class UICanvas extends SimpleBaseGameActivity {
 		//player.setmTower(mTower1);
 		robot.setmTower(mTower1);
 		deadRobot.setmTower(mTower1);
-		*/
 		// 6 - Add touch handlers
 		scene.registerTouchArea(player);
-		//scene.registerTouchArea(robot);
-		//scene.registerTouchArea(deadRobot);
+		scene.registerTouchArea(robot);
+		scene.registerTouchArea(deadRobot);
 		scene.setTouchAreaBindingOnActionDownEnabled(true);
-		
+		*/
 		
 		return scene;
 	}

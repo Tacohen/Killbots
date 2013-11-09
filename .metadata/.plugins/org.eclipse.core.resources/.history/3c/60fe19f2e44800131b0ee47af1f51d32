@@ -51,14 +51,12 @@ public class UICanvas extends SimpleBaseGameActivity {
 		            return getAssets().open("gfx/background-resized-10x10.png");
 		        }
 		    });
-		    /**
 		    ITexture towerTexture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
 		        @Override
 		        public InputStream open() throws IOException {
 		            return getAssets().open("gfx/tower.png");
 		        }
 		    });
-		    */
 		    ITexture player = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
 		        @Override
 		        public InputStream open() throws IOException {
@@ -79,23 +77,22 @@ public class UICanvas extends SimpleBaseGameActivity {
 		    });
 		    // 2 - Load bitmap textures into VRAM
 		    backgroundTexture.load();
-		    //towerTexture.load();
+		    towerTexture.load();
 		    player.load();
 		    robot.load();
 		    deadRobot.load();
 		    
 		 // 3 - Set up texture regions
 		    this.mBackgroundTextureRegion = TextureRegionFactory.extractFromTexture(backgroundTexture);
-		    //this.mTowerTextureRegion = TextureRegionFactory.extractFromTexture(towerTexture);
+		    this.mTowerTextureRegion = TextureRegionFactory.extractFromTexture(towerTexture);
 		    this.player = TextureRegionFactory.extractFromTexture(player);
 		    this.robot = TextureRegionFactory.extractFromTexture(robot);
 		    this.deadRobot = TextureRegionFactory.extractFromTexture(deadRobot);
-		    /**
+		    
 		 // 4 - Create the stacks
 		    this.mStack1 = new Stack();
 		    this.mStack2 = new Stack();
 		    this.mStack3 = new Stack();
-		    */
 		    
 		} catch (IOException e) {
 		    Debug.e(e);
@@ -114,7 +111,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		
 		//1.5, tacohen, attach the player directly to the background
 		playerSprite = new Sprite(150,150, this.player, getVertexBufferObjectManager());
-		/**
+		
 		// 2 - Add the towers
 		mTower1 = new Sprite(192, 63, this.mTowerTextureRegion, getVertexBufferObjectManager());
 		mTower2 = new Sprite(400, 63, this.mTowerTextureRegion, getVertexBufferObjectManager());
@@ -122,7 +119,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		scene.attachChild(mTower1);
 		scene.attachChild(mTower2);
 		scene.attachChild(mTower3);
-		*/
+		
 		// 3 - Create the rings
 		//tacohen note: (280,130) places the player at 6x7 on the grid
 		//tacohen note: every square in the any direction is 47 pixels (e.g. 6x7 is (280,130),
@@ -179,13 +176,12 @@ public class UICanvas extends SimpleBaseGameActivity {
 		//player.setmTower(mTower1);
 		robot.setmTower(mTower1);
 		deadRobot.setmTower(mTower1);
-		*/
 		// 6 - Add touch handlers
 		scene.registerTouchArea(player);
-		//scene.registerTouchArea(robot);
-		//scene.registerTouchArea(deadRobot);
+		scene.registerTouchArea(robot);
+		scene.registerTouchArea(deadRobot);
 		scene.setTouchAreaBindingOnActionDownEnabled(true);
-		
+		*/
 		
 		return scene;
 	}
