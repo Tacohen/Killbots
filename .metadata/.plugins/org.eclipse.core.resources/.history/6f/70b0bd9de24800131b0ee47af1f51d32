@@ -122,9 +122,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 		
 		// 3 - Create the rings
 		//tacohen note: (280,130) places the player at 6x7 on the grid
-		//tacohen note: every square in the x direction is 47 pixels (e.g. 6x7 is (280,130),
+		//tacohen note: every square in the x direction is 47 pixels (e.g. 6x7 is (280,140),
 		//7x7 is (320,130)
-		Ring player = new Ring(1, 280, 130, this.player, getVertexBufferObjectManager()) {
+		Ring player = new Ring(1, 327, 130, this.player, getVertexBufferObjectManager()) {
 		    @Override
 		    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 		        this.setPosition(pSceneTouchEvent.getX() - this.getWidth() / 2, 
