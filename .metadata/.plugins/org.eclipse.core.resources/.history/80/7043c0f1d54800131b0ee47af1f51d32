@@ -48,7 +48,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		    ITexture backgroundTexture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
 		        @Override
 		        public InputStream open() throws IOException {
-		            return getAssets().open("gfx/background-resized-10x10.png");
+		            return getAssets().open("gfx/background-resized.png");
 		        }
 		    });
 		    ITexture towerTexture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
@@ -121,8 +121,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 		scene.attachChild(mTower3);
 		
 		// 3 - Create the rings
-		//tacohen note: 280/140 plaes the player at 6x7 on the grid
-		Ring player = new Ring(1, 280, 130, this.player, getVertexBufferObjectManager()) {
+		
+		Ring player = new Ring(1, 139, 174, this.player, getVertexBufferObjectManager()) {
 		    @Override
 		    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 		        this.setPosition(pSceneTouchEvent.getX() - this.getWidth() / 2, 
