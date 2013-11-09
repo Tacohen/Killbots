@@ -24,14 +24,20 @@ import com.tacohen.killbots.Logic.Ring;
 import java.util.Stack;
 import org.andengine.input.touch.TouchEvent;
 
+/**
+ * License notes: uses graphics (the arrows) from picol.org, and they want a linkback
+ * License notes: uses graphics (characters,background) from KDE, I should be okay as long as this app is GPL-licensed
+ * @author timothy
+ *
+ */
 
 public class UICanvas extends SimpleBaseGameActivity {
 	
 	private static int CAMERA_WIDTH = 800;
 	private static int CAMERA_HEIGHT = 480;
 	
-	private ITextureRegion mBackgroundTextureRegion, mTowerTextureRegion,  player, robot, deadRobot;
-	private Sprite mTower1, mTower2, mTower3, playerSprite;
+	private ITextureRegion mBackgroundTextureRegion, player, robot, deadRobot, leftArrow,rightArrow,upArrow,downArrow;
+	private Sprite leftArrowSprite,rightArrowSprite,downArrowSprite,upArrowSprite;
 	private Stack mStack1, mStack2, mStack3;
 	
 	@Override
@@ -77,12 +83,41 @@ public class UICanvas extends SimpleBaseGameActivity {
 		            return getAssets().open("gfx/deadRobot.png");
 		        }
 		    });
+		    ITexture leftArrow = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
+		        @Override
+		        public InputStream open() throws IOException {
+		            return getAssets().open("gfx/left_arrow.png");
+		        }
+		    });
+		    ITexture rightArrow = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
+		        @Override
+		        public InputStream open() throws IOException {
+		            return getAssets().open("gfx/right_arrow.png");
+		        }
+		    });
+		    ITexture upArrow = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
+		        @Override
+		        public InputStream open() throws IOException {
+		            return getAssets().open("gfx/up_arrow.png");
+		        }
+		    });
+		    ITexture downArrow = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
+		        @Override
+		        public InputStream open() throws IOException {
+		            return getAssets().open("gfx/down_arrow.png");
+		        }
+		    });
+		    
 		    // 2 - Load bitmap textures into VRAM
 		    backgroundTexture.load();
 		    //towerTexture.load();
 		    player.load();
 		    robot.load();
 		    deadRobot.load();
+		    leftArrow.load();
+		    rightArrow.load();
+		    upArrow.load();
+		    downArrow.load();
 		    
 		 // 3 - Set up texture regions
 		    this.mBackgroundTextureRegion = TextureRegionFactory.extractFromTexture(backgroundTexture);
@@ -90,6 +125,12 @@ public class UICanvas extends SimpleBaseGameActivity {
 		    this.player = TextureRegionFactory.extractFromTexture(player);
 		    this.robot = TextureRegionFactory.extractFromTexture(robot);
 		    this.deadRobot = TextureRegionFactory.extractFromTexture(deadRobot);
+		    this.player = TextureRegionFactory.extractFromTexture(player);
+		    this.leftArrow = TextureRegionFactory.extractFromTexture(leftArrow);
+		    this.rightArrow = TextureRegionFactory.extractFromTexture(rightArrow);
+		    this.upArrow = TextureRegionFactory.extractFromTexture(upArrow);
+		    this.downArrow = TextureRegionFactory.extractFromTexture(downArrow);
+
 		    /**
 		 // 4 - Create the stacks
 		    this.mStack1 = new Stack();
@@ -112,8 +153,15 @@ public class UICanvas extends SimpleBaseGameActivity {
 		Sprite backgroundSprite = new Sprite(0, 0, this.mBackgroundTextureRegion, getVertexBufferObjectManager());
 		scene.attachChild(backgroundSprite);
 		
-		//1.5, tacohen, attach the player directly to the background
-		playerSprite = new Sprite(150,150, this.player, getVertexBufferObjectManager());
+		//1.5, tacohen, attach the arrows directly to the background
+		leftArrowSprite = new Sprite(530,100, this.leftArrow, getVertexBufferObjectManager());
+		scene.attachChild(leftArrowSprite);
+		rightArrowSprite = new Sprite(680,100, this.rightArrow, getVertexBufferObjectManager());
+		scene.attachChild(rightArrowSprite);
+		upArrowSprite = new Sprite(605,0, this.upArrow, getVertexBufferObjectManager());
+		scene.attachChild(upArrowSprite);
+		downArrowSprite = new Sprite(605,200, this.downArrow, getVertexBufferObjectManager());
+		scene.attachChild(downArrowSprite);
 		/**
 		// 2 - Add the towers
 		mTower1 = new Sprite(192, 63, this.mTowerTextureRegion, getVertexBufferObjectManager());

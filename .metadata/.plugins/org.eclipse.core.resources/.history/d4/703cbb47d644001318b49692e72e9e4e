@@ -1,7 +1,0 @@
-package com.tacohen.killbots.UI;
-
-import at.bartinger.candroid.CandroidActivity;
-
-public class UICanvas extends CandroidActivity{
-
-}
