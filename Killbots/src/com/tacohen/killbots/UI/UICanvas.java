@@ -20,12 +20,16 @@ import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.entity.sprite.Sprite;
 
 import android.util.Log;
+import android.util.Pair;
 import android.view.MotionEvent;
 
-import com.tacohen.killbots.Logic.UIObject;
 
 import java.util.Stack;
 import org.andengine.input.touch.TouchEvent;
+
+import com.tacohen.killbots.Logic.CurrentPlayerLocation;
+import com.tacohen.killbots.Logic.GridDimensions;
+import com.tacohen.killbots.Logic.PlayerMovement;
 
 /**
  * License notes: uses graphics (the arrows) from picol.org, and they want a linkback
@@ -42,8 +46,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 	private static int CAMERA_HEIGHT = 480;
 	
 	private ITextureRegion mBackgroundTextureRegion, playerTexture, robot, deadRobot, leftArrow,rightArrow,upArrow,downArrow;
-	private Sprite leftArrowSprite,rightArrowSprite,downArrowSprite,upArrowSprite;
-	private UIObject player;
+	private Sprite leftArrowSprite,rightArrowSprite,downArrowSprite,upArrowSprite,player;
+	
+	private PlayerMovement playerMovement = new PlayerMovement();
 	
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -59,7 +64,10 @@ public class UICanvas extends SimpleBaseGameActivity {
 		    ITexture backgroundTexture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
 		        @Override
 		        public InputStream open() throws IOException {
-		            return getAssets().open("gfx/background-resized-10x10.png");
+		        	GridDimensions.setHeight(10);
+		        	GridDimensions.setWidth(10);
+		        	GridDimensions.setGridDimensions(new Pair<Integer,Integer>(10,10));
+		            return getAssets().open("gfx/background-resized-10x10.png");   
 		        }
 		    });
 		    ITexture player = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
@@ -150,7 +158,11 @@ public class UICanvas extends SimpleBaseGameActivity {
 				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
 				case MotionEvent.ACTION_UP:{
 					Log.i(TAG, "Touched Left Arrow");
-					player.setPosition(player.getX()-47,player.getY());
+					if (playerMovement.canPlayerMoveLeft(new Pair<Integer, Integer>(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()))){
+						player.setPosition(player.getX()-47,player.getY());
+						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation()-1, CurrentPlayerLocation.getPlayerYLocation());
+					}
+
 				}
 				}
 
@@ -158,6 +170,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 			}
 		};
 		scene.attachChild(leftArrowSprite);
+		
 		rightArrowSprite = new Sprite(680,100, this.rightArrow, getVertexBufferObjectManager()){
 			@Override
 	        public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
@@ -165,7 +178,10 @@ public class UICanvas extends SimpleBaseGameActivity {
 				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
 				case MotionEvent.ACTION_UP:{
 					Log.i(TAG, "Touched Right Arrow");
-					player.setPosition(player.getX()+47,player.getY());
+					if (playerMovement.canPlayerMoveRight(new Pair<Integer, Integer>(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()))){
+						player.setPosition(player.getX()+47,player.getY());
+						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation()+1, CurrentPlayerLocation.getPlayerYLocation());
+					}
 				}
 				}
 
@@ -173,6 +189,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 			}
 		};
 		scene.attachChild(rightArrowSprite);
+		
 		upArrowSprite = new Sprite(605,0, this.upArrow, getVertexBufferObjectManager()){
 			@Override
 	        public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
@@ -180,7 +197,10 @@ public class UICanvas extends SimpleBaseGameActivity {
 				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
 				case MotionEvent.ACTION_UP:{
 					Log.i(TAG, "Touched Up Arrow");
-					player.setPosition(player.getX(),player.getY()-47);
+					if (playerMovement.canPlayerMoveUp(new Pair<Integer, Integer>(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()))){
+						player.setPosition(player.getX(),player.getY()-47);
+						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()+1);
+					}
 				}
 				}
 
@@ -188,6 +208,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 			}
 		};
 		scene.attachChild(upArrowSprite);
+		
 		downArrowSprite = new Sprite(605,200, this.downArrow, getVertexBufferObjectManager()){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
@@ -195,7 +216,10 @@ public class UICanvas extends SimpleBaseGameActivity {
 				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
 				case MotionEvent.ACTION_UP:{
 					Log.i(TAG, "Touched Down Arrow");
-					player.setPosition(player.getX(),player.getY()+47);
+					if (playerMovement.canPlayerMoveDown(new Pair<Integer, Integer>(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()))){
+						player.setPosition(player.getX(),player.getY()+47);
+						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()-1);
+					}
 				}
 				}
 
@@ -205,9 +229,10 @@ public class UICanvas extends SimpleBaseGameActivity {
 		scene.attachChild(downArrowSprite);
 		//tacohen note: (280,130) places the player at 6x7 on the grid
 		//tacohen note: every square in the any direction is 47 pixels (e.g. 6x7 is (280,130),
-		//7x8 is (327,177)
+		//7x6 is (327,177)
 		//UIObject player = new UIObject(1, 327, 177, this.playerTexture, getVertexBufferObjectManager()) {
-		player = new UIObject(1, 327, 177, this.playerTexture, getVertexBufferObjectManager());// {
+		player = new Sprite(327,177, this.playerTexture, getVertexBufferObjectManager());// {
+		CurrentPlayerLocation.setPlayerLocation(6, 5);
 		/**    
 		@Override
 		    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {

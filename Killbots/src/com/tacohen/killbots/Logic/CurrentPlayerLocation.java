@@ -9,4 +9,10 @@ public class CurrentPlayerLocation {
 		public static void setPlayerLocation(Integer xValue, Integer yValue){
 			currentPlayerLocation = Pair.create(xValue, yValue);
 		}
+		public static int getPlayerXLocation(){
+			return currentPlayerLocation.first;
+		}
+		public static int getPlayerYLocation(){
+			return currentPlayerLocation.second;
+		}
 }
