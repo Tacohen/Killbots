@@ -19,7 +19,9 @@ import org.andengine.opengl.texture.region.TextureRegionFactory;
 
 import org.andengine.entity.sprite.Sprite;
 
-import com.tacohen.killbots.Logic.Ring;
+import android.util.Log;
+
+import com.tacohen.killbots.Logic.UIObject;
 
 import java.util.Stack;
 import org.andengine.input.touch.TouchEvent;
@@ -33,12 +35,14 @@ import org.andengine.input.touch.TouchEvent;
 
 public class UICanvas extends SimpleBaseGameActivity {
 	
+	String TAG = "UICanvas";
+	
 	private static int CAMERA_WIDTH = 800;
 	private static int CAMERA_HEIGHT = 480;
 	
-	private ITextureRegion mBackgroundTextureRegion, player, robot, deadRobot, leftArrow,rightArrow,upArrow,downArrow;
+	private ITextureRegion mBackgroundTextureRegion, playerTexture, robot, deadRobot, leftArrow,rightArrow,upArrow,downArrow;
 	private Sprite leftArrowSprite,rightArrowSprite,downArrowSprite,upArrowSprite;
-	private Stack mStack1, mStack2, mStack3;
+	private UIObject player;
 	
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -57,14 +61,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 		            return getAssets().open("gfx/background-resized-10x10.png");
 		        }
 		    });
-		    /**
-		    ITexture towerTexture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
-		        @Override
-		        public InputStream open() throws IOException {
-		            return getAssets().open("gfx/tower.png");
-		        }
-		    });
-		    */
 		    ITexture player = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
 		        @Override
 		        public InputStream open() throws IOException {
@@ -110,7 +106,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 		    
 		    // 2 - Load bitmap textures into VRAM
 		    backgroundTexture.load();
-		    //towerTexture.load();
 		    player.load();
 		    robot.load();
 		    deadRobot.load();
@@ -122,21 +117,14 @@ public class UICanvas extends SimpleBaseGameActivity {
 		 // 3 - Set up texture regions
 		    this.mBackgroundTextureRegion = TextureRegionFactory.extractFromTexture(backgroundTexture);
 		    //this.mTowerTextureRegion = TextureRegionFactory.extractFromTexture(towerTexture);
-		    this.player = TextureRegionFactory.extractFromTexture(player);
+		    this.playerTexture = TextureRegionFactory.extractFromTexture(player);
 		    this.robot = TextureRegionFactory.extractFromTexture(robot);
 		    this.deadRobot = TextureRegionFactory.extractFromTexture(deadRobot);
-		    this.player = TextureRegionFactory.extractFromTexture(player);
+		    this.playerTexture = TextureRegionFactory.extractFromTexture(player);
 		    this.leftArrow = TextureRegionFactory.extractFromTexture(leftArrow);
 		    this.rightArrow = TextureRegionFactory.extractFromTexture(rightArrow);
 		    this.upArrow = TextureRegionFactory.extractFromTexture(upArrow);
 		    this.downArrow = TextureRegionFactory.extractFromTexture(downArrow);
-
-		    /**
-		 // 4 - Create the stacks
-		    this.mStack1 = new Stack();
-		    this.mStack2 = new Stack();
-		    this.mStack3 = new Stack();
-		    */
 		    
 		} catch (IOException e) {
 		    Debug.e(e);
@@ -154,29 +142,49 @@ public class UICanvas extends SimpleBaseGameActivity {
 		scene.attachChild(backgroundSprite);
 		
 		//1.5, tacohen, attach the arrows directly to the background
-		leftArrowSprite = new Sprite(530,100, this.leftArrow, getVertexBufferObjectManager());
+		leftArrowSprite = new Sprite(530,100, this.leftArrow, getVertexBufferObjectManager()){
+			@Override
+	        public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				Log.i(TAG, "Touched Left Arrow");
+				player.setPosition(player.getX()-47,player.getY());
+				return true;
+	         }
+		};
 		scene.attachChild(leftArrowSprite);
-		rightArrowSprite = new Sprite(680,100, this.rightArrow, getVertexBufferObjectManager());
+		rightArrowSprite = new Sprite(680,100, this.rightArrow, getVertexBufferObjectManager()){
+			@Override
+	        public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				Log.i(TAG, "Touched Right Arrow");	
+				player.setPosition(player.getX()+47,player.getY());
+				return true;
+	                        }
+		};
 		scene.attachChild(rightArrowSprite);
-		upArrowSprite = new Sprite(605,0, this.upArrow, getVertexBufferObjectManager());
+		upArrowSprite = new Sprite(605,0, this.upArrow, getVertexBufferObjectManager()){
+			@Override
+	        public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				Log.i(TAG, "Touched Up Arrow");		
+				player.setPosition(player.getX(),player.getY()-47);
+				return true;
+	                        }
+		};
 		scene.attachChild(upArrowSprite);
-		downArrowSprite = new Sprite(605,200, this.downArrow, getVertexBufferObjectManager());
+		downArrowSprite = new Sprite(605,200, this.downArrow, getVertexBufferObjectManager()){
+			@Override
+	        public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				Log.i(TAG, "Touched Down Arrow");
+				player.setPosition(player.getX(),player.getY()+47);
+				return true;
+	                        }
+		};
 		scene.attachChild(downArrowSprite);
-		/**
-		// 2 - Add the towers
-		mTower1 = new Sprite(192, 63, this.mTowerTextureRegion, getVertexBufferObjectManager());
-		mTower2 = new Sprite(400, 63, this.mTowerTextureRegion, getVertexBufferObjectManager());
-		mTower3 = new Sprite(604, 63, this.mTowerTextureRegion, getVertexBufferObjectManager());
-		scene.attachChild(mTower1);
-		scene.attachChild(mTower2);
-		scene.attachChild(mTower3);
-		*/
-		// 3 - Create the rings
 		//tacohen note: (280,130) places the player at 6x7 on the grid
 		//tacohen note: every square in the any direction is 47 pixels (e.g. 6x7 is (280,130),
 		//7x8 is (327,177)
-		Ring player = new Ring(1, 327, 177, this.player, getVertexBufferObjectManager()) {
-		    @Override
+		//UIObject player = new UIObject(1, 327, 177, this.playerTexture, getVertexBufferObjectManager()) {
+		player = new UIObject(1, 327, 177, this.playerTexture, getVertexBufferObjectManager());// {
+		/**    
+		@Override
 		    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 		        this.setPosition(pSceneTouchEvent.getX() - this.getWidth() / 2, 
 		            pSceneTouchEvent.getY() - this.getHeight() / 2);
@@ -215,21 +223,13 @@ public class UICanvas extends SimpleBaseGameActivity {
 		/**
 		scene.attachChild(robot);
 		scene.attachChild(deadRobot);
-		
-		// 4 - Add all rings to stack one
-		this.mStack1.add(deadRobot);
-		this.mStack1.add(robot);
-		//this.mStack1.add(player);
-		// 5 - Initialize starting position for each ring
-		player.setmStack(mStack1);
-		robot.setmStack(mStack1);
-		deadRobot.setmStack(mStack1);
-		//player.setmTower(mTower1);
-		robot.setmTower(mTower1);
-		deadRobot.setmTower(mTower1);
 		*/
-		// 6 - Add touch handlers
-		scene.registerTouchArea(player);
+		//Add touch handlers
+		//scene.registerTouchArea(player);
+		scene.registerTouchArea(downArrowSprite);
+		scene.registerTouchArea(leftArrowSprite);
+		scene.registerTouchArea(rightArrowSprite);
+		scene.registerTouchArea(upArrowSprite);
 		//scene.registerTouchArea(robot);
 		//scene.registerTouchArea(deadRobot);
 		scene.setTouchAreaBindingOnActionDownEnabled(true);
@@ -237,39 +237,5 @@ public class UICanvas extends SimpleBaseGameActivity {
 		
 		return scene;
 	}
-	/**
-	private void checkForCollisionsWithTowers(Ring ring) {
-		Stack stack = null;
-	    Sprite tower = null;
-	    if (ring.collidesWith(mTower1) && (mStack1.size() == 0 ||             
-	            ring.getmWeight() < ((Ring) mStack1.peek()).getmWeight())) {
-	        stack = mStack1;
-	        tower = mTower1;
-	    } else if (ring.collidesWith(mTower2) && (mStack2.size() == 0 || 
-	            ring.getmWeight() < ((Ring) mStack2.peek()).getmWeight())) {
-	        stack = mStack2;
-	        tower = mTower2;
-	    } else if (ring.collidesWith(mTower3) && (mStack3.size() == 0 || 
-	            ring.getmWeight() < ((Ring) mStack3.peek()).getmWeight())) {
-	        stack = mStack3;
-	        tower = mTower3;
-	    } else {
-	        stack = ring.getmStack();
-	        tower = ring.getmTower();
-	    }
-	    ring.getmStack().remove(ring);
-	    if (stack != null && tower !=null && stack.size() == 0) {
-	        ring.setPosition(tower.getX() + tower.getWidth()/2 - 
-	            ring.getWidth()/2, tower.getY() + tower.getHeight() - 
-	            ring.getHeight());
-	    } else if (stack != null && tower !=null && stack.size() > 0) {
-	        ring.setPosition(tower.getX() + tower.getWidth()/2 - 
-	            ring.getWidth()/2, ((Ring) stack.peek()).getY() - 
-	            ring.getHeight());
-	    }
-	    stack.add(ring);
-	    ring.setmStack(stack);
-	    ring.setmTower(tower);
-	}
-	*/
+
 }

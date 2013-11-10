@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.tacohen.killbots.Logic.Ring&apos; to &apos;UIObject&apos;&#x0A;- Original project: &apos;Killbots&apos;&#x0A;- Original element: &apos;com.tacohen.killbots.Logic.Ring&apos;&#x0A;- Renamed element: &apos;com.tacohen.killbots.Logic.UIObject&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Ring&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;com.tacohen.killbots.Logic{Ring.java[Ring" matchStrategy="1" name="UIObject" qualified="false" references="true" similarDeclarations="false" stamp="1384050498235" textual="false" version="1.0"/>
+</session>
