@@ -146,31 +146,19 @@ public class UICanvas extends SimpleBaseGameActivity {
 		leftArrowSprite = new Sprite(530,100, this.leftArrow, getVertexBufferObjectManager()){
 			@Override
 	        public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				switch (pSceneTouchEvent.getAction()) {
-				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
-				case MotionEvent.ACTION_UP:{
-					Log.i(TAG, "Touched Left Arrow");
-					player.setPosition(player.getX()-47,player.getY());
-				}
-				}
-
+				Log.i(TAG, "Touched Left Arrow");
+				player.setPosition(player.getX()-47,player.getY());
 				return true;
-			}
+	         }
 		};
 		scene.attachChild(leftArrowSprite);
 		rightArrowSprite = new Sprite(680,100, this.rightArrow, getVertexBufferObjectManager()){
 			@Override
 	        public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				switch (pSceneTouchEvent.getAction()) {
-				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
-				case MotionEvent.ACTION_UP:{
-					Log.i(TAG, "Touched Right Arrow");
-					player.setPosition(player.getX()+47,player.getY());
-				}
-				}
-
+				Log.i(TAG, "Touched Right Arrow");	
+				player.setPosition(player.getX()+47,player.getY());
 				return true;
-			}
+	                        }
 		};
 		scene.attachChild(rightArrowSprite);
 		upArrowSprite = new Sprite(605,0, this.upArrow, getVertexBufferObjectManager()){
@@ -179,8 +167,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 				switch (pSceneTouchEvent.getAction()) {
 				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
 				case MotionEvent.ACTION_UP:{
-					Log.i(TAG, "Touched Up Arrow");
-					player.setPosition(player.getX(),player.getY()-47);
+					Log.i(TAG, "Touched Right Arrow");
+					player.setPosition(player.getX()+47,player.getY());
 				}
 				}
 

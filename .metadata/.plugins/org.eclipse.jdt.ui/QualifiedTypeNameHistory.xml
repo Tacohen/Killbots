@@ -11,7 +11,6 @@
 <fullyQualifiedTypeName name="android.os.Bundle"/>
 <fullyQualifiedTypeName name="android.R"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.R"/>
-<fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.CurrentPlayerLocation"/>
 <fullyQualifiedTypeName name="android.util.Pair"/>
 <fullyQualifiedTypeName name="java.util.List"/>
@@ -20,4 +19,5 @@
 <fullyQualifiedTypeName name="org.andengine.ui.activity.SimpleBaseGameActivity"/>
 <fullyQualifiedTypeName name="at.bartinger.candroid.renderable.Sprite"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.Ring"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
 </qualifiedTypeNameHistroy>
