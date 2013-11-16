@@ -11,8 +11,6 @@
 <fullyQualifiedTypeName name="android.os.Bundle"/>
 <fullyQualifiedTypeName name="android.R"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.R"/>
-<fullyQualifiedTypeName name="com.tacohen.killbots.Logic.CurrentPlayerLocation"/>
-<fullyQualifiedTypeName name="android.util.Pair"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.Random"/>
 <fullyQualifiedTypeName name="at.bartinger.candroid.CandroidActivity"/>
@@ -20,4 +18,9 @@
 <fullyQualifiedTypeName name="at.bartinger.candroid.renderable.Sprite"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.Ring"/>
 <fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="android.view.MotionEvent"/>
+<fullyQualifiedTypeName name="com.tacohen.killbots.Logic.CurrentPlayerLocation"/>
+<fullyQualifiedTypeName name="com.tacohen.killbots.Logic.PlayerMovement"/>
+<fullyQualifiedTypeName name="android.util.Pair"/>
+<fullyQualifiedTypeName name="com.tacohen.killbots.Logic.GridDimensions"/>
 </qualifiedTypeNameHistroy>

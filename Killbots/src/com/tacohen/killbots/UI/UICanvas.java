@@ -24,12 +24,12 @@ import android.util.Pair;
 import android.view.MotionEvent;
 
 
-import java.util.Stack;
 import org.andengine.input.touch.TouchEvent;
 
 import com.tacohen.killbots.Logic.CurrentPlayerLocation;
 import com.tacohen.killbots.Logic.GridDimensions;
 import com.tacohen.killbots.Logic.PlayerMovement;
+import com.tacohen.killbots.Logic.RobotLocations;
 
 /**
  * License notes: uses graphics (the arrows) from picol.org, and they want a linkback
@@ -45,10 +45,11 @@ public class UICanvas extends SimpleBaseGameActivity {
 	private static int CAMERA_WIDTH = 800;
 	private static int CAMERA_HEIGHT = 480;
 	
-	private ITextureRegion mBackgroundTextureRegion, playerTexture, robot, deadRobot, leftArrow,rightArrow,upArrow,downArrow;
-	private Sprite leftArrowSprite,rightArrowSprite,downArrowSprite,upArrowSprite,player;
+	private ITextureRegion mBackgroundTextureRegion, playerTexture, robotTexture, deadRobotTexture, leftArrow,rightArrow,upArrow,downArrow;
+	private Sprite leftArrowSprite,rightArrowSprite,downArrowSprite,upArrowSprite,player, robot, deadRobot;
 	
 	private PlayerMovement playerMovement = new PlayerMovement();
+
 	
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -125,10 +126,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 		    
 		 // 3 - Set up texture regions
 		    this.mBackgroundTextureRegion = TextureRegionFactory.extractFromTexture(backgroundTexture);
-		    //this.mTowerTextureRegion = TextureRegionFactory.extractFromTexture(towerTexture);
 		    this.playerTexture = TextureRegionFactory.extractFromTexture(player);
-		    this.robot = TextureRegionFactory.extractFromTexture(robot);
-		    this.deadRobot = TextureRegionFactory.extractFromTexture(deadRobot);
+		    this.robotTexture = TextureRegionFactory.extractFromTexture(robot);
+		    this.deadRobotTexture = TextureRegionFactory.extractFromTexture(deadRobot);
 		    this.playerTexture = TextureRegionFactory.extractFromTexture(player);
 		    this.leftArrow = TextureRegionFactory.extractFromTexture(leftArrow);
 		    this.rightArrow = TextureRegionFactory.extractFromTexture(rightArrow);
@@ -162,7 +162,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						player.setPosition(player.getX()-47,player.getY());
 						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation()-1, CurrentPlayerLocation.getPlayerYLocation());
 					}
-
 				}
 				}
 
@@ -233,6 +232,14 @@ public class UICanvas extends SimpleBaseGameActivity {
 		//UIObject player = new UIObject(1, 327, 177, this.playerTexture, getVertexBufferObjectManager()) {
 		player = new Sprite(327,177, this.playerTexture, getVertexBufferObjectManager());// {
 		CurrentPlayerLocation.setPlayerLocation(6, 5);
+		
+		//Placeholder location values, replace later!
+		robot = new Sprite(280,130, this.robotTexture, getVertexBufferObjectManager());// {
+		RobotLocations.setRobotLocation(5,6);
+		
+		//Placeholder values, replace later!
+		deadRobot = new Sprite(233,87, this.deadRobotTexture, getVertexBufferObjectManager());// {
+		RobotLocations.setDeadRobotLocation(4,7);
 		/**    
 		@Override
 		    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
@@ -270,18 +277,14 @@ public class UICanvas extends SimpleBaseGameActivity {
 		};
 		*/
 		scene.attachChild(player);
-		/**
 		scene.attachChild(robot);
 		scene.attachChild(deadRobot);
-		*/
+		
 		//Add touch handlers
-		//scene.registerTouchArea(player);
 		scene.registerTouchArea(downArrowSprite);
 		scene.registerTouchArea(leftArrowSprite);
 		scene.registerTouchArea(rightArrowSprite);
 		scene.registerTouchArea(upArrowSprite);
-		//scene.registerTouchArea(robot);
-		//scene.registerTouchArea(deadRobot);
 		scene.setTouchAreaBindingOnActionDownEnabled(true);
 		
 		

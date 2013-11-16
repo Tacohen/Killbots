@@ -91,9 +91,6 @@ public class PlayerMovement implements IPlayerMovement{
 
 	@Override
 	public boolean isRobotHere(Pair<Integer, Integer> p) {
-		if (RobotLocations.liveRobotLocations() == null){
-			return false;
-		}
 		List<Pair<Integer,Integer>> robotsList = RobotLocations.liveRobotLocations();
 		if (robotsList.contains(p)){
 			return true;
@@ -105,9 +102,6 @@ public class PlayerMovement implements IPlayerMovement{
 
 	@Override
 	public boolean isDeadRobotHere(Pair<Integer, Integer> p) {
-		if (RobotLocations.liveRobotLocations() == null){
-			return false;
-		}
 		List<Pair<Integer,Integer>> robotsList = RobotLocations.deadRobotLocations();
 		if (robotsList.contains(p)){
 			return true;
