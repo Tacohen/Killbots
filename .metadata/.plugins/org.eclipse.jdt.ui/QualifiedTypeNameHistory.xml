@@ -17,10 +17,13 @@
 <fullyQualifiedTypeName name="org.andengine.ui.activity.SimpleBaseGameActivity"/>
 <fullyQualifiedTypeName name="at.bartinger.candroid.renderable.Sprite"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.Ring"/>
-<fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="android.view.MotionEvent"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.CurrentPlayerLocation"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.PlayerMovement"/>
-<fullyQualifiedTypeName name="android.util.Pair"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.GridDimensions"/>
+<fullyQualifiedTypeName name="com.tacohen.killbots.Logic.RobotLocations"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="android.util.Pair"/>
+<fullyQualifiedTypeName name="com.tacohen.killbots.Logic.MoveRobots"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
 </qualifiedTypeNameHistroy>

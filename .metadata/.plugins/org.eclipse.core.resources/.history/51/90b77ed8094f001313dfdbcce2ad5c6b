@@ -1,0 +1,12 @@
+package com.tacohen.killbots.Logic;
+
+public class MoveRobots {
+	
+	int playerXLocation = CurrentPlayerLocation.getPlayerXLocation();
+	int playerYLocation = CurrentPlayerLocation.getPlayerYLocation();
+	
+	public MoveRobots(){
+		super();
+	}
+
+}

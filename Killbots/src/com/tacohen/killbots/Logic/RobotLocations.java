@@ -26,9 +26,10 @@ public class RobotLocations{
 		liveRobotLocations.remove(Pair.create(xValue, yValue));
 	}
 	
-	public static void moveRobotLocation(Integer oldxValue, Integer oldyValue,Integer newxValue, Integer newyValue){
-		liveRobotLocations.remove(Pair.create(oldxValue, oldyValue));
-		liveRobotLocations.add(Pair.create(newxValue, newyValue));
+	public static void moveRobotLocation(Integer index, Integer newxValue, Integer newyValue){
+		//liveRobotLocations.remove(Pair.create(oldxValue, oldyValue));
+		//liveRobotLocations.add(Pair.create(newxValue, newyValue));
+		liveRobotLocations.set(index, (Pair.create(newxValue, newyValue)));
 	}
 	
 	public static void setRobotDead(Integer xValue, Integer yValue){

@@ -1,0 +1,41 @@
+package com.tacohen.killbots.Logic;
+
+import android.util.Pair;
+
+public class MoveRobots {
+	
+	int playerXLocation = CurrentPlayerLocation.getPlayerXLocation();
+	int playerYLocation = CurrentPlayerLocation.getPlayerYLocation();
+	
+	public MoveRobots(){
+		super();
+	}
+	
+	public Pair<Integer,Integer> desiredRobotLocation(int robotXLocation, int robotYLocation){
+		
+		int xValueDifference = (robotXLocation-playerXLocation);
+		int yValueDifference = (robotYLocation-playerYLocation);
+		
+		int desiredXValue = 0;
+		int desiredYValue = 0;
+		
+		//Have the robot go the direction they need to go the most
+		//If there is a tie, favor X direction arbitrarily
+		//TODO: find a better method than arbitrarily favoring X
+		if (Math.abs(yValueDifference) > Math.abs(xValueDifference)){
+			desiredXValue = robotXLocation;
+			if (yValueDifference > 0){
+				desiredYValue = robotYLocation - 1;
+			}
+			else{
+				desiredYValue = robotYLocation + 1;
+			}
+		}
+		
+
+
+		return Pair.create(desiredXValue, desiredYValue);
+		
+	}
+
+}
