@@ -24,7 +24,7 @@ public class PlayerMovement implements IPlayerMovement{
 	
 	@Override
 	public boolean canPlayerMoveRight(Pair<Integer, Integer> p) {
-		if (p.first == 10){
+		if (p.first == GridDimensions.width){
 			return false;
 		}
 		if (isRobotHere(Pair.create(p.first+1, p.second))){
@@ -52,7 +52,7 @@ public class PlayerMovement implements IPlayerMovement{
 	
 	@Override
 	public boolean canPlayerMoveDown(Pair<Integer, Integer> p) {
-		if (p.second == 9){
+		if (p.second+1 == GridDimensions.height){
 			return false;
 		}
 		if (isRobotHere(Pair.create(p.first, p.second-1))){

@@ -216,7 +216,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 					Log.i(TAG, "Touched Up Arrow");
 					if (playerMovement.canPlayerMoveUp(new Pair<Integer, Integer>(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()))){
 						player.setPosition(player.getX(),player.getY()-47);
-						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()-1);
+						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()+1);
 						
 						Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(0);
 						Log.i(TAG,"old robot location is: "+robotLoc.first+","+robotLoc.second);
@@ -243,7 +243,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 					Log.i(TAG, "Touched Down Arrow");
 					if (playerMovement.canPlayerMoveDown(new Pair<Integer, Integer>(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()))){
 						player.setPosition(player.getX(),player.getY()+47);
-						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()+1);
+						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()-1);
 						
 						Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(0);
 						Log.i(TAG,"old robot location is: "+robotLoc.first+","+robotLoc.second);
@@ -268,11 +268,11 @@ public class UICanvas extends SimpleBaseGameActivity {
 		//player = new Sprite(327,177, this.playerTexture, getVertexBufferObjectManager());// {
 		//CurrentPlayerLocation.setPlayerLocation(6, 5);
 		player = new Sprite(282,0, this.playerTexture, getVertexBufferObjectManager());// {
-		CurrentPlayerLocation.setPlayerLocation(6, 0);
+		CurrentPlayerLocation.setPlayerLocation(5, 0);
 		
 		//Placeholder location values, replace later!
 		robot = new Sprite(329,224, this.robotTexture, getVertexBufferObjectManager());// {
-		RobotLocations.setRobotLocation(7,5);
+		RobotLocations.setRobotLocation(6,6);
 		
 		//Placeholder values, replace later!
 		//deadRobot = new Sprite(233,87, this.deadRobotTexture, getVertexBufferObjectManager());// {
