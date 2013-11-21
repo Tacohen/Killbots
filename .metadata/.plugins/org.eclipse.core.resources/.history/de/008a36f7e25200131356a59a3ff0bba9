@@ -175,7 +175,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 					
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
 						}
 					}
 				}
@@ -207,7 +207,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 						
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
 						}
 					}
 				}
@@ -239,7 +239,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 					
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
 						}
 					}
 				}
@@ -271,7 +271,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 					
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
 						}
 					}
 				}

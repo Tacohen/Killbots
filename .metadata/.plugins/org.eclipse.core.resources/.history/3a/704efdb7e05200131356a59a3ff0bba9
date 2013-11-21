@@ -22,7 +22,6 @@ import org.andengine.entity.sprite.Sprite;
 import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
-import android.widget.Toast;
 
 
 import org.andengine.input.touch.TouchEvent;
@@ -172,11 +171,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						Log.i(TAG,"new robot location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
 						robot.setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
 						RobotLocations.moveRobotLocation(0,newRobotLocation.first, newRobotLocation.second);
-					
-						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
-							Log.i(TAG, "Player has died!");
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
-						}
 					}
 				}
 				}
@@ -204,11 +198,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						Log.i(TAG,"new robot location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
 						robot.setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
 						RobotLocations.moveRobotLocation(0,newRobotLocation.first, newRobotLocation.second);
-						
-						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
-							Log.i(TAG, "Player has died!");
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
-						}
 					}
 				}
 				}
@@ -236,11 +225,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						Log.i(TAG,"new robot location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
 						robot.setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
 						RobotLocations.moveRobotLocation(0,newRobotLocation.first, newRobotLocation.second);
-					
-						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
-							Log.i(TAG, "Player has died!");
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
-						}
 					}
 				}
 				}
@@ -268,11 +252,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						Log.i(TAG,"new robot location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
 						robot.setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
 						RobotLocations.moveRobotLocation(0,newRobotLocation.first, newRobotLocation.second);
-					
-						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
-							Log.i(TAG, "Player has died!");
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
-						}
 					}
 				}
 				}

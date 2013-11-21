@@ -22,7 +22,6 @@ import org.andengine.entity.sprite.Sprite;
 import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
-import android.widget.Toast;
 
 
 import org.andengine.input.touch.TouchEvent;
@@ -175,7 +174,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 					
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
 						}
 					}
 				}
@@ -207,7 +205,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
 						}
 					}
 				}
@@ -239,7 +236,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 					
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
 						}
 					}
 				}
@@ -271,7 +267,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 					
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
 						}
 					}
 				}
