@@ -373,7 +373,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		scene.attachChild(player);
 		scene.attachChild(robot1);
 		scene.attachChild(robot2);
-		scene.attachChild(deadRobot);
+		//scene.attachChild(deadRobot);
 		
 		//Add touch handlers
 		scene.registerTouchArea(downArrowSprite);

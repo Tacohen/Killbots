@@ -166,32 +166,24 @@ public class UICanvas extends SimpleBaseGameActivity {
 						player.setPosition(player.getX()-47,player.getY());
 						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation()-1, CurrentPlayerLocation.getPlayerYLocation());
 						Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(0);
-						Log.i(TAG,"old robot1 location is: "+robotLoc.first+","+robotLoc.second);
+						Log.i(TAG,"old robot location is: "+robotLoc.first+","+robotLoc.second);
 						Log.i(TAG, "new player location is: "+CurrentPlayerLocation.getPlayerXLocation()+","+CurrentPlayerLocation.getPlayerYLocation());
 						Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,CurrentPlayerLocation.getPlayerXLocation()+1,CurrentPlayerLocation.getPlayerYLocation());
-						Log.i(TAG,"new robot1 location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
+						Log.i(TAG,"new robot location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
 						robot1.setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
 						RobotLocations.moveRobotLocation(0,newRobotLocation.first, newRobotLocation.second);
 						
 						Pair<Integer, Integer> robotLoc2 = RobotLocations.liveRobotLocations.get(1);
-						Log.i(TAG,"old robot2 location is: "+robotLoc2.first+","+robotLoc2.second);
+						Log.i(TAG,"old robot location is: "+robotLoc2.first+","+robotLoc2.second);
 						Pair<Integer,Integer> newRobotLocation2 = moveRobots.desiredRobotLocation(robotLoc2.first, robotLoc2.second,CurrentPlayerLocation.getPlayerXLocation(),CurrentPlayerLocation.getPlayerYLocation()+1);
-						Log.i(TAG,"new robot2 location is:"+newRobotLocation2.first+" , "+newRobotLocation2.second);
-						robot2.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
+						Log.i(TAG,"new robot location is:"+newRobotLocation2.first+" , "+newRobotLocation2.second);
+						robot1.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
 						RobotLocations.moveRobotLocation(1,newRobotLocation2.first, newRobotLocation2.second);
 					
 					
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
 							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
-						}
-						
-						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
-							Log.i(TAG, "Robots have collided!");
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
 						}
 					}
 				}
@@ -214,32 +206,24 @@ public class UICanvas extends SimpleBaseGameActivity {
 						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation()+1, CurrentPlayerLocation.getPlayerYLocation());
 						
 						Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(0);
-						Log.i(TAG,"old robot1 location is: "+robotLoc.first+","+robotLoc.second);
+						Log.i(TAG,"old robot location is: "+robotLoc.first+","+robotLoc.second);
 						Log.i(TAG, "new player location is: "+CurrentPlayerLocation.getPlayerXLocation()+","+CurrentPlayerLocation.getPlayerYLocation());
 						Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,CurrentPlayerLocation.getPlayerXLocation()-1,CurrentPlayerLocation.getPlayerYLocation());
-						Log.i(TAG,"new robot1 location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
+						Log.i(TAG,"new robot location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
 						robot1.setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
 						RobotLocations.moveRobotLocation(0,newRobotLocation.first, newRobotLocation.second);
 						
 						Pair<Integer, Integer> robotLoc2 = RobotLocations.liveRobotLocations.get(1);
-						Log.i(TAG,"old robot2 location is: "+robotLoc2.first+","+robotLoc2.second);
+						Log.i(TAG,"old robot location is: "+robotLoc2.first+","+robotLoc2.second);
 						Pair<Integer,Integer> newRobotLocation2 = moveRobots.desiredRobotLocation(robotLoc2.first, robotLoc2.second,CurrentPlayerLocation.getPlayerXLocation(),CurrentPlayerLocation.getPlayerYLocation()+1);
-						Log.i(TAG,"new robot2 location is:"+newRobotLocation2.first+" , "+newRobotLocation2.second);
-						robot2.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
+						Log.i(TAG,"new robot location is:"+newRobotLocation2.first+" , "+newRobotLocation2.second);
+						robot1.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
 						RobotLocations.moveRobotLocation(1,newRobotLocation2.first, newRobotLocation2.second);
 					
 						
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
 							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
-						}
-						
-						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
-							Log.i(TAG, "Robots have collided!");
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
 						}
 					}
 				}
@@ -262,32 +246,24 @@ public class UICanvas extends SimpleBaseGameActivity {
 						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()-1);
 						
 						Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(0);
-						Log.i(TAG,"old robot1 location is: "+robotLoc.first+","+robotLoc.second);
+						Log.i(TAG,"old robot location is: "+robotLoc.first+","+robotLoc.second);
 						Log.i(TAG, "new player location is: "+CurrentPlayerLocation.getPlayerXLocation()+","+CurrentPlayerLocation.getPlayerYLocation());
 						Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,CurrentPlayerLocation.getPlayerXLocation(),CurrentPlayerLocation.getPlayerYLocation()-1);
-						Log.i(TAG,"new robot1 location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
+						Log.i(TAG,"new robot location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
 						robot1.setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
 						RobotLocations.moveRobotLocation(0,newRobotLocation.first, newRobotLocation.second);
 						
 						Pair<Integer, Integer> robotLoc2 = RobotLocations.liveRobotLocations.get(1);
-						Log.i(TAG,"old robot2 location is: "+robotLoc2.first+","+robotLoc2.second);
+						Log.i(TAG,"old robot location is: "+robotLoc2.first+","+robotLoc2.second);
 						Pair<Integer,Integer> newRobotLocation2 = moveRobots.desiredRobotLocation(robotLoc2.first, robotLoc2.second,CurrentPlayerLocation.getPlayerXLocation(),CurrentPlayerLocation.getPlayerYLocation()+1);
-						Log.i(TAG,"new robot2 location is:"+newRobotLocation2.first+" , "+newRobotLocation2.second);
-						robot2.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
+						Log.i(TAG,"new robot location is:"+newRobotLocation2.first+" , "+newRobotLocation2.second);
+						robot1.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
 						RobotLocations.moveRobotLocation(1,newRobotLocation2.first, newRobotLocation2.second);
 					
 					
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
 							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
-						}
-						
-						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
-							Log.i(TAG, "Robots have collided!");
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
 						}
 					}
 				}
@@ -310,27 +286,19 @@ public class UICanvas extends SimpleBaseGameActivity {
 						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()+1);
 						
 						Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(0);
-						Log.i(TAG,"old robot1 location is: "+robotLoc.first+","+robotLoc.second);
+						Log.i(TAG,"old robot location is: "+robotLoc.first+","+robotLoc.second);
 						Log.i(TAG, "new player location is: "+CurrentPlayerLocation.getPlayerXLocation()+","+CurrentPlayerLocation.getPlayerYLocation());
 						Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,CurrentPlayerLocation.getPlayerXLocation(),CurrentPlayerLocation.getPlayerYLocation()+1);
-						Log.i(TAG,"new robot1 location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
+						Log.i(TAG,"new robot location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
 						robot1.setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
 						RobotLocations.moveRobotLocation(0,newRobotLocation.first, newRobotLocation.second);
 						
 						Pair<Integer, Integer> robotLoc2 = RobotLocations.liveRobotLocations.get(1);
-						Log.i(TAG,"old robot2 location is: "+robotLoc2.first+","+robotLoc2.second);
+						Log.i(TAG,"old robot location is: "+robotLoc2.first+","+robotLoc2.second);
 						Pair<Integer,Integer> newRobotLocation2 = moveRobots.desiredRobotLocation(robotLoc2.first, robotLoc2.second,CurrentPlayerLocation.getPlayerXLocation(),CurrentPlayerLocation.getPlayerYLocation()+1);
-						Log.i(TAG,"new robot2 location is:"+newRobotLocation2.first+" , "+newRobotLocation2.second);
-						robot2.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
+						Log.i(TAG,"new robot location is:"+newRobotLocation2.first+" , "+newRobotLocation2.second);
+						robot1.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
 						RobotLocations.moveRobotLocation(1,newRobotLocation2.first, newRobotLocation2.second);
-						
-						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
-							Log.i(TAG, "Robots have collided!");
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
-						}
 					
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
@@ -356,24 +324,24 @@ public class UICanvas extends SimpleBaseGameActivity {
 		//UIObject player = new UIObject(1, 327, 177, this.playerTexture, getVertexBufferObjectManager()) {
 		//player = new Sprite(327,177, this.playerTexture, getVertexBufferObjectManager());// {
 		//CurrentPlayerLocation.setPlayerLocation(6, 5);
-		player = new Sprite(376,0, this.playerTexture, getVertexBufferObjectManager());
-		CurrentPlayerLocation.setPlayerLocation(8, 0);
+		player = new Sprite(282,0, this.playerTexture, getVertexBufferObjectManager());
+		CurrentPlayerLocation.setPlayerLocation(6, 0);
 		
 		//Placeholder location values, replace later!
 		robot1 = new Sprite(329,224, this.robotTexture, getVertexBufferObjectManager());
 		RobotLocations.setRobotLocation(7,5);
 		
-		robot2 = new Sprite(423,224, this.robotTexture, getVertexBufferObjectManager());
-		RobotLocations.setRobotLocation(9,5);
+		robot2 = new Sprite(376,224, this.robotTexture, getVertexBufferObjectManager());
+		RobotLocations.setRobotLocation(8,5);
 		
-		//Place dead robot way off the screen edge do it can't be seen until needed!
-		deadRobot = new Sprite(900,900, this.deadRobotTexture, getVertexBufferObjectManager());// {
-		RobotLocations.setDeadRobotLocation(11,11);
+		//Placeholder values, replace later!
+		//deadRobot = new Sprite(233,87, this.deadRobotTexture, getVertexBufferObjectManager());// {
+		//RobotLocations.setDeadRobotLocation(4,7);
 
 		scene.attachChild(player);
 		scene.attachChild(robot1);
 		scene.attachChild(robot2);
-		scene.attachChild(deadRobot);
+		//scene.attachChild(deadRobot);
 		
 		//Add touch handlers
 		scene.registerTouchArea(downArrowSprite);

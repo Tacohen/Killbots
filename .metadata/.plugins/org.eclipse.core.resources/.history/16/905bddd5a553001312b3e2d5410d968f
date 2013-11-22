@@ -185,14 +185,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 							Log.i(TAG, "Player has died!");
 							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
 						}
-						
-						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
-							Log.i(TAG, "Robots have collided!");
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
-						}
 					}
 				}
 				}
@@ -232,14 +224,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
 							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
-						}
-						
-						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
-							Log.i(TAG, "Robots have collided!");
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
 						}
 					}
 				}
@@ -281,14 +265,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 							Log.i(TAG, "Player has died!");
 							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
 						}
-						
-						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
-							Log.i(TAG, "Robots have collided!");
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
-						}
 					}
 				}
 				}
@@ -326,10 +302,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						
 						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
 							Log.i(TAG, "Robots have collided!");
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
 						}
 					
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
@@ -366,14 +338,14 @@ public class UICanvas extends SimpleBaseGameActivity {
 		robot2 = new Sprite(423,224, this.robotTexture, getVertexBufferObjectManager());
 		RobotLocations.setRobotLocation(9,5);
 		
-		//Place dead robot way off the screen edge do it can't be seen until needed!
-		deadRobot = new Sprite(900,900, this.deadRobotTexture, getVertexBufferObjectManager());// {
-		RobotLocations.setDeadRobotLocation(11,11);
+		//Placeholder values, replace later!
+		//deadRobot = new Sprite(233,87, this.deadRobotTexture, getVertexBufferObjectManager());// {
+		//RobotLocations.setDeadRobotLocation(4,7);
 
 		scene.attachChild(player);
 		scene.attachChild(robot1);
 		scene.attachChild(robot2);
-		scene.attachChild(deadRobot);
+		//scene.attachChild(deadRobot);
 		
 		//Add touch handlers
 		scene.registerTouchArea(downArrowSprite);

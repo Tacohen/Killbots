@@ -188,10 +188,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						
 						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
 							Log.i(TAG, "Robots have collided!");
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
 						}
 					}
 				}
@@ -236,10 +232,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						
 						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
 							Log.i(TAG, "Robots have collided!");
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
 						}
 					}
 				}
@@ -284,10 +276,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						
 						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
 							Log.i(TAG, "Robots have collided!");
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
 						}
 					}
 				}
@@ -326,10 +314,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 						
 						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
 							Log.i(TAG, "Robots have collided!");
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
+							//deadRobot = new Sprite(233,87, this.deadRobotTexture, getVertexBufferObjectManager());// {
+							//RobotLocations.setDeadRobotLocation(4,7);
 						}
 					
 						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
@@ -373,7 +359,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		scene.attachChild(player);
 		scene.attachChild(robot1);
 		scene.attachChild(robot2);
-		scene.attachChild(deadRobot);
+		//scene.attachChild(deadRobot);
 		
 		//Add touch handlers
 		scene.registerTouchArea(downArrowSprite);
