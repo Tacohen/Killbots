@@ -27,6 +27,8 @@ import android.widget.Toast;
 
 import org.andengine.input.touch.TouchEvent;
 
+import com.google.common.collect.HashMultimap;
+import com.tacohen.cloud.Cloud;
 import com.tacohen.killbots.Logic.CurrentPlayerLocation;
 import com.tacohen.killbots.Logic.GridDimensions;
 import com.tacohen.killbots.Logic.MoveRobots;
@@ -36,7 +38,7 @@ import com.tacohen.killbots.Logic.RobotLocations;
 /**
  * License notes: uses graphics (the arrows) from picol.org, and they want a linkback
  * License notes: uses graphics (characters,background) from KDE, I should be okay as long as this app is GPL-licensed
- * @author timothy
+ * @author Timothy Cohen
  *
  */
 
@@ -440,6 +442,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 	        @Override
 	        public void run() {
 	    		Toast.makeText(getApplicationContext(), "You Died! Your score is: "+score, Toast.LENGTH_LONG).show();
+	    		getHighScores();
 	        }
 	    });
 	}
@@ -450,8 +453,19 @@ public class UICanvas extends SimpleBaseGameActivity {
 	        @Override
 	        public void run() {
 	    		Toast.makeText(getApplicationContext(), "You Won! Your score is: "+score, Toast.LENGTH_LONG).show();
+	    		getHighScores();
 	        }
 	    });
+	}
+	
+	public void getHighScores(){
+		  new Thread(new Runnable() {
+   			@Override
+   			public void run() {
+   				Cloud c = new Cloud();
+   				HashMultimap scores = c.getHighScores();
+   			}
+   		}).start();
 	}
 
 }

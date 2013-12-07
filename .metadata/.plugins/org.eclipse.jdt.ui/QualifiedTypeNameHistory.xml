@@ -24,6 +24,9 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="android.util.Pair"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.MoveRobots"/>
-<fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="android.widget.Toast"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="org.json.JSONArray"/>
+<fullyQualifiedTypeName name="com.tacohen.cloud.Cloud"/>
 </qualifiedTypeNameHistroy>

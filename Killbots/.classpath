@@ -6,5 +6,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry exported="true" kind="lib" path="/home/timothy/killbots/Killbots/libs/CandroidGameEngine1.1.1.jar"/>
+	<classpathentry kind="lib" path="/home/timothy/killbots/Killbots/libs/guava-15.0.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
