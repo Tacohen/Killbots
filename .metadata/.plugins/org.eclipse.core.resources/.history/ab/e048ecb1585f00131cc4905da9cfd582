@@ -54,8 +54,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 	private MoveRobots moveRobots = new MoveRobots();
 	
 	private Integer robotCount;
-	
-	private Integer score;
 
 	
 	@Override
@@ -158,9 +156,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 		scene.attachChild(backgroundSprite);
 		
 		robotCount = 0;
-		//scoring rules: player starts with 100, with -1 for each turn, -5 for each teleport, and +10 for each
-		//robot killed
-		score = 100;
 		
 		
 		//1.5, tacohen, attach the arrows directly to the background
@@ -171,8 +166,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
 				case MotionEvent.ACTION_UP:{
 					Log.i(TAG, "Touched Left Arrow");
-					score -= 1;
-					Log.i(TAG, "Player moved, score is now: "+score);
 					if (playerMovement.canPlayerMoveLeft(new Pair<Integer, Integer>(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()))){
 						player.setPosition(player.getX()-47,player.getY());
 						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation()-1, CurrentPlayerLocation.getPlayerYLocation());
@@ -200,8 +193,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						
 						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
 							Log.i(TAG, "Robots have collided!");
-							score += 10;
-							Log.i(TAG, "Player killed two robots, score is now: "+score);
 							robotCount -= 2;
 							scene.detachChild(robot1);
 							scene.detachChild(robot2);
@@ -227,8 +218,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
 				case MotionEvent.ACTION_UP:{
 					Log.i(TAG, "Touched Right Arrow");
-					score -= 1;
-					Log.i(TAG, "Player moved, score is now: "+score);
 					if (playerMovement.canPlayerMoveRight(new Pair<Integer, Integer>(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()))){
 						player.setPosition(player.getX()+47,player.getY());
 						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation()+1, CurrentPlayerLocation.getPlayerYLocation());
@@ -257,8 +246,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						
 						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
 							Log.i(TAG, "Robots have collided!");
-							score += 10;
-							Log.i(TAG, "Player killed two robots, score is now: "+score);
 							robotCount -= 2;
 							scene.detachChild(robot1);
 							scene.detachChild(robot2);
@@ -284,8 +271,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
 				case MotionEvent.ACTION_UP:{
 					Log.i(TAG, "Touched Up Arrow");
-					score -= 1;
-					Log.i(TAG, "Player moved, score is now: "+score);
 					if (playerMovement.canPlayerMoveUp(new Pair<Integer, Integer>(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()))){
 						player.setPosition(player.getX(),player.getY()-47);
 						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()-1);
@@ -314,8 +299,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						
 						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
 							Log.i(TAG, "Robots have collided!");
-							score += 10;
-							Log.i(TAG, "Player killed two robots, score is now: "+score);
 							robotCount -= 2;
 							scene.detachChild(robot1);
 							scene.detachChild(robot2);
@@ -341,8 +324,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
 				case MotionEvent.ACTION_UP:{
 					Log.i(TAG, "Touched Down Arrow");
-					score -= 1;
-					Log.i(TAG, "Player moved, score is now: "+score);
 					if (playerMovement.canPlayerMoveDown(new Pair<Integer, Integer>(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()))){
 						player.setPosition(player.getX(),player.getY()+47);
 						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()+1);
@@ -364,8 +345,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 						
 						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
 							Log.i(TAG, "Robots have collided!");
-							score += 10;
-							Log.i(TAG, "Player killed two robots, score is now: "+score);
 							robotCount -= 2;
 							scene.detachChild(robot1);
 							scene.detachChild(robot2);
@@ -439,7 +418,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		this.runOnUiThread(new Runnable() {
 	        @Override
 	        public void run() {
-	    		Toast.makeText(getApplicationContext(), "You Died! Your score is: "+score, Toast.LENGTH_LONG).show();
+	    		Toast.makeText(getApplicationContext(), "You Died!", Toast.LENGTH_LONG).show();
 	        }
 	    });
 	}
@@ -449,7 +428,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		this.runOnUiThread(new Runnable() {
 	        @Override
 	        public void run() {
-	    		Toast.makeText(getApplicationContext(), "You Won! Your score is: "+score, Toast.LENGTH_LONG).show();
+	    		Toast.makeText(getApplicationContext(), "You Won!", Toast.LENGTH_LONG).show();
 	        }
 	    });
 	}
