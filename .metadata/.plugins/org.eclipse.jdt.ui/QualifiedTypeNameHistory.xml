@@ -19,7 +19,6 @@
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.PlayerMovement"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.GridDimensions"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.RobotLocations"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.MoveRobots"/>
 <fullyQualifiedTypeName name="android.widget.Toast"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
@@ -32,4 +31,7 @@
 <fullyQualifiedTypeName name="android.content.Context"/>
 <fullyQualifiedTypeName name="android.os.Handler"/>
 <fullyQualifiedTypeName name="android.widget.TextView"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
+<fullyQualifiedTypeName name="org.andengine.entity.sprite.ButtonSprite"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

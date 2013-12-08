@@ -13,10 +13,12 @@ import org.andengine.util.debug.Debug;
  
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
 
+import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
 
 import android.util.Log;
@@ -49,8 +51,10 @@ public class UICanvas extends SimpleBaseGameActivity {
 	private static int CAMERA_WIDTH = 800;
 	private static int CAMERA_HEIGHT = 480;
 	
-	private ITextureRegion mBackgroundTextureRegion, playerTexture, robotTexture, deadRobotTexture, leftArrow,rightArrow,upArrow,downArrow;
+	private ITextureRegion mBackgroundTextureRegion, playerTexture, robotTexture, deadRobotTexture, leftArrow,rightArrow,upArrow,downArrow,questionMark;
 	private Sprite leftArrowSprite,rightArrowSprite,downArrowSprite,upArrowSprite,player, robot1, robot2, deadRobot;
+	
+	private ButtonSprite teleportButton;
 	
 	private PlayerMovement playerMovement = new PlayerMovement();
 	private MoveRobots moveRobots = new MoveRobots();
@@ -58,6 +62,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 	private Integer robotCount;
 	
 	private Integer score;
+	
+	private ArrayList<Sprite> robotsList = new ArrayList<Sprite>();
 
 	
 	@Override
@@ -70,6 +76,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 	@Override
 	protected void onCreateResources() {
 		try {
+			
 		    // 1 - Set up bitmap textures
 		    ITexture backgroundTexture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
 		        @Override
@@ -122,6 +129,12 @@ public class UICanvas extends SimpleBaseGameActivity {
 		            return getAssets().open("gfx/down_arrow.png");
 		        }
 		    });
+		    ITexture questionMark = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
+		        @Override
+		        public InputStream open() throws IOException {
+		            return getAssets().open("gfx/questionmark.png");
+		        }
+		    });
 		    
 		    // 2 - Load bitmap textures into VRAM
 		    backgroundTexture.load();
@@ -132,6 +145,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		    rightArrow.load();
 		    upArrow.load();
 		    downArrow.load();
+		    questionMark.load();
 		    
 		 // 3 - Set up texture regions
 		    this.mBackgroundTextureRegion = TextureRegionFactory.extractFromTexture(backgroundTexture);
@@ -143,6 +157,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		    this.rightArrow = TextureRegionFactory.extractFromTexture(rightArrow);
 		    this.upArrow = TextureRegionFactory.extractFromTexture(upArrow);
 		    this.downArrow = TextureRegionFactory.extractFromTexture(downArrow);
+		    this.questionMark = TextureRegionFactory.extractFromTexture(questionMark);
 		    
 		} catch (IOException e) {
 		    Debug.e(e);
@@ -194,10 +209,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 						RobotLocations.moveRobotLocation(1,newRobotLocation2.first, newRobotLocation2.second);
 					
 					
-						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
+						if (RobotLocations.liveRobotLocations().contains(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
 							lose();
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
 						}
 						
 						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
@@ -209,6 +223,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 							scene.detachChild(robot2);
 							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
 							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
+							RobotLocations.removeRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
 							if (robotCount == 0){
 								win();
 							}
@@ -251,10 +266,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 						RobotLocations.moveRobotLocation(1,newRobotLocation2.first, newRobotLocation2.second);
 					
 						
-						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
+						if (RobotLocations.liveRobotLocations().contains(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
 							lose();
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
 						}
 						
 						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
@@ -266,6 +280,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 							scene.detachChild(robot2);
 							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
 							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
+							RobotLocations.removeRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
 							if (robotCount == 0){
 								win();
 							}
@@ -308,10 +323,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 						RobotLocations.moveRobotLocation(1,newRobotLocation2.first, newRobotLocation2.second);
 					
 					
-						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
+						if (RobotLocations.liveRobotLocations().contains(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
 							lose();
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
 						}
 						
 						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
@@ -323,6 +337,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 							scene.detachChild(robot2);
 							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
 							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
+							RobotLocations.removeRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
 							if (robotCount == 0){
 								win();
 							}
@@ -373,22 +388,17 @@ public class UICanvas extends SimpleBaseGameActivity {
 							scene.detachChild(robot2);
 							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
 							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
+							RobotLocations.removeRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
 							if (robotCount == 0){
 								win();
 							}
 						}
 					
-						if (RobotLocations.liveRobotLocations().get(0).equals(CurrentPlayerLocation.currentPlayerLocation)){
+						if (RobotLocations.liveRobotLocations().contains(CurrentPlayerLocation.currentPlayerLocation)){
 							Log.i(TAG, "Player has died!");
 							lose();
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
 						}
 						
-						if (RobotLocations.liveRobotLocations().get(1).equals(CurrentPlayerLocation.currentPlayerLocation)){
-							Log.i(TAG, "Player has died!");
-							lose();
-							//Toast.makeText(getApplicationContext(), "Player has died!", Toast.LENGTH_LONG).show();
-						}
 					}
 				}
 				}
@@ -397,6 +407,63 @@ public class UICanvas extends SimpleBaseGameActivity {
 			}
 		};
 		scene.attachChild(downArrowSprite);
+		
+		teleportButton = new ButtonSprite(605, 350, this.questionMark, this.getVertexBufferObjectManager()){
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {                                         
+				if(pSceneTouchEvent.isActionUp()) {
+					Log.i(TAG,"User touched teleport button!");
+					score -= 5;
+					
+					Pair<Integer,Integer> newLocation = playerMovement.teleportPlayer();
+					Log.i(TAG, "Teleported, new location is: "+newLocation.first.toString()+" , "+newLocation.second.toString());
+					
+					player.setPosition(newLocation.first*47,newLocation.second*47);
+					CurrentPlayerLocation.setPlayerLocation(newLocation.first, newLocation.second);
+					
+					for (int i = 0; i< robotCount; i++){
+						Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(i);
+						Log.i(TAG,"old robot "+i+" location is: "+robotLoc.first+","+robotLoc.second);
+						Log.i(TAG, "new player location is: "+CurrentPlayerLocation.getPlayerXLocation()+","+CurrentPlayerLocation.getPlayerYLocation());
+						Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,CurrentPlayerLocation.getPlayerXLocation(),CurrentPlayerLocation.getPlayerYLocation());
+						Log.i(TAG,"new robot "+i+" location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
+						robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
+						RobotLocations.moveRobotLocation(i,newRobotLocation.first, newRobotLocation.second);
+						
+						if (RobotLocations.liveRobotLocations.get(0).equals(RobotLocations.liveRobotLocations.get(1))){
+							Log.i(TAG, "Robots have collided!");
+							score += 10;
+							Log.i(TAG, "Player killed two robots, score is now: "+score);
+							robotCount -= 2;
+							scene.detachChild(robot1);
+							scene.detachChild(robot2);
+							deadRobot.setPosition(RobotLocations.liveRobotLocations.get(i).first*47, RobotLocations.liveRobotLocations.get(i).second*47);
+							RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
+							RobotLocations.removeRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
+							if (robotCount == 0){
+								win();
+							}
+						}
+					}
+					
+					if ((RobotLocations.liveRobotLocations().contains(CurrentPlayerLocation.currentPlayerLocation) || 
+							RobotLocations.deadRobotLocations().contains(CurrentPlayerLocation.currentPlayerLocation))){
+							Log.i(TAG, "Player has died!");
+							lose();
+					}
+					
+					
+					
+					
+					return true;
+				}
+				return false;
+			}
+
+		};
+		scene.attachChild(teleportButton);
+		scene.registerTouchArea(teleportButton);
+		
 		//tacohen note: top left grid square is (1,0), NOT (0,0)!!!!!
 		//tacohen note: (280,130) places the player at 6x7 on the grid
 		//tacohen note: every square in the any direction is 47 pixels (e.g. 6x7 is (280,130),
@@ -408,8 +475,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 		CurrentPlayerLocation.setPlayerLocation(8, 0);
 		
 		//Placeholder location values, replace later!
-		robot1 = new Sprite(329,224, this.robotTexture, getVertexBufferObjectManager());
-		RobotLocations.setRobotLocation(7,5);
+		robot1 = new Sprite(47,0, this.robotTexture, getVertexBufferObjectManager());
+		RobotLocations.setRobotLocation(1,0);
 		robotCount += 1;
 		
 		robot2 = new Sprite(423,224, this.robotTexture, getVertexBufferObjectManager());
@@ -424,6 +491,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 		scene.attachChild(robot1);
 		scene.attachChild(robot2);
 		scene.attachChild(deadRobot);
+		
+		robotsList.add(0,robot1);
+		robotsList.add(1,robot2);
 		
 		//Add touch handlers
 		scene.registerTouchArea(downArrowSprite);
@@ -442,7 +512,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 	        @Override
 	        public void run() {
 	    		Toast.makeText(getApplicationContext(), "You Died! Your score is: "+score, Toast.LENGTH_LONG).show();
-	    		getHighScores();
 	        }
 	    });
 	}
@@ -453,19 +522,10 @@ public class UICanvas extends SimpleBaseGameActivity {
 	        @Override
 	        public void run() {
 	    		Toast.makeText(getApplicationContext(), "You Won! Your score is: "+score, Toast.LENGTH_LONG).show();
-	    		getHighScores();
+
 	        }
 	    });
 	}
 	
-	public void getHighScores(){
-		  new Thread(new Runnable() {
-   			@Override
-   			public void run() {
-   				Cloud c = new Cloud();
-   				HashMultimap scores = c.getHighScores();
-   			}
-   		}).start();
-	}
 
 }

@@ -1,6 +1,7 @@
 package com.tacohen.killbots.Logic;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import android.util.Pair;
@@ -23,6 +24,10 @@ public class RobotLocations{
 	}
 	
 	public static void removeRobotLocation(Integer xValue, Integer yValue){
+		//Since I can't use a remove all with pair<>, calling remove multiple times is the next best thing(in case several bots die on the same turn)
+		liveRobotLocations.remove(Pair.create(xValue, yValue));
+		liveRobotLocations.remove(Pair.create(xValue, yValue));
+		liveRobotLocations.remove(Pair.create(xValue, yValue));
 		liveRobotLocations.remove(Pair.create(xValue, yValue));
 	}
 	

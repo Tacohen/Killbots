@@ -128,7 +128,9 @@ public class PlayerMovement implements IPlayerMovement{
 	@Override
 	public Pair<Integer, Integer> teleportPlayer() {
 		Random r = new Random();
-		Integer newXlocation = r.nextInt(GridDimensions.height - 0);
+		//Hack to deal with the x-axis going from 1 to 10 rather than 0-9
+		Integer newXlocation = (r.nextInt(GridDimensions.height - 0)+1);
+		
 		Integer newYlocation = r.nextInt(GridDimensions.width - 0);
 		return Pair.create(newXlocation, newYlocation);
 	}
