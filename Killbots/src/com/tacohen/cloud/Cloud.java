@@ -38,9 +38,8 @@ public class Cloud {
 		return 6;
 	}
 	
-	public HashMultimap getHighScores(){
-		HashMap<String,Integer> scoresMap = new HashMap<String,Integer>();
-		HashMultimap fullMap = HashMultimap.create(5, 2);
+	public HashMultimap<Integer, Pair<String,Integer>> getHighScores(){
+		HashMultimap<Integer, Pair<String,Integer>> fullMap = HashMultimap.create(5, 2);
 		try{
 			HttpClient client = new DefaultHttpClient();
 			URI website = new URI("http://killbots.herokuapp.com/scores/HighScores");

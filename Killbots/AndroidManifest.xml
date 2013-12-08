@@ -53,6 +53,14 @@
             </intent-filter>
         </activity>
         
+        <activity
+            android:name="com.tacohen.killbots.UI.HighScores"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.HighScores" />
+            </intent-filter>
+        </activity>
+        
     </application>
 
 </manifest>

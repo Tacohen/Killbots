@@ -1,0 +1,37 @@
+package com.tacohen.killbots.UI;
+
+import com.google.common.collect.HashMultimap;
+import com.tacohen.cloud.Cloud;
+import com.tacohen.killbots.R;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+
+public class HighScores extends Activity{
+	
+	HashMultimap scores = HashMultimap.create(2, 5);
+	final static String TAG = "HighScores";
+	private Context context;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.high_scores);
+		
+		this.context = getApplicationContext();
+		
+	}
+	
+	public void getHighScores(){
+		  new Thread(new Runnable() {
+ 			@Override
+ 			public void run() {
+ 				Cloud c = new Cloud();
+ 				scores = c.getHighScores();
+ 			}
+ 		}).start();
+	}
+
+
+}

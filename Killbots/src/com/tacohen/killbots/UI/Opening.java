@@ -44,21 +44,18 @@ public class Opening extends Activity {
             Intent i = null;
             switch (v.getId()) {
                 case R.id.dashboard_button_settings:
-                	Toast.makeText(getBaseContext(), "Settings", Toast.LENGTH_SHORT).show();
                 	i = new Intent(v.getContext(), Settings.class);
                 	Log.i(TAG,"Entering Settings");
                     break;
                 case R.id.dashboard_button_playGame:
-                	Toast.makeText(getBaseContext(), "Play Game", Toast.LENGTH_SHORT).show();
                 	i = new Intent(v.getContext(), UICanvas.class);
                 	Log.i(TAG,"Entering UICanvas");
                     break;
                 case R.id.dashboard_button_highScores:
-                	Toast.makeText(getBaseContext(), "High Scores", Toast.LENGTH_SHORT).show();
-                	//Stub
+                	i = new Intent(v.getContext(), HighScores.class);
+                	Log.i(TAG,"Entering HighScores");
                     break;
                 case R.id.dashboard_button_howToPlay:
-                	Toast.makeText(getBaseContext(), "How To Play", Toast.LENGTH_SHORT).show();
                 	i = new Intent(v.getContext(), HowToPlay.class);
                 	Log.i(TAG,"Entering HowToPlay");
                 	break;
