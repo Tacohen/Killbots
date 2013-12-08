@@ -14,6 +14,7 @@ import org.andengine.util.debug.Debug;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
@@ -21,6 +22,9 @@ import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
@@ -63,7 +67,11 @@ public class UICanvas extends SimpleBaseGameActivity {
 	
 	private Integer score;
 	
+	private Integer place;
+	
 	private ArrayList<Sprite> robotsList = new ArrayList<Sprite>();
+	
+	private Boolean isScoreHigh= false;
 
 	
 	@Override
@@ -512,6 +520,15 @@ public class UICanvas extends SimpleBaseGameActivity {
 	        @Override
 	        public void run() {
 	    		Toast.makeText(getApplicationContext(), "You Died! Your score is: "+score, Toast.LENGTH_LONG).show();
+	    		Log.i(TAG, "Is this a high score? "+IsScoreHigh());
+	    		if (IsScoreHigh()){
+		    		Toast.makeText(getApplicationContext(), "You got a High Score!", Toast.LENGTH_LONG).show();
+		    		Intent i = new Intent(UICanvas.this,AddHighScore.class);
+	                i.putExtra("score", score);
+	                i.putExtra("place", GetPlace());
+		    		startActivityForResult(i,0);
+	    		}
+	    		
 	        }
 	    });
 	}
@@ -522,10 +539,56 @@ public class UICanvas extends SimpleBaseGameActivity {
 	        @Override
 	        public void run() {
 	    		Toast.makeText(getApplicationContext(), "You Won! Your score is: "+score, Toast.LENGTH_LONG).show();
-
+	    		Log.i(TAG, "Is this a high score? "+IsScoreHigh());
+	    		if (IsScoreHigh()){
+		    		Toast.makeText(getApplicationContext(), "You got a High Score!", Toast.LENGTH_LONG).show();
+		    		Intent i = new Intent(UICanvas.this,AddHighScore.class);
+	                i.putExtra("score", score);
+	                i.putExtra("place", GetPlace());
+		    		startActivityForResult(i,0);
+	    		}
 	        }
 	    });
 	}
 	
+	public Boolean IsScoreHigh(){
+		final CountDownLatch latch = new CountDownLatch(1);
+	    Thread scoreThread = new HandlerThread("ScoreHandler"){
+	        @Override
+	        public synchronized void run(){
+	            Cloud c = new Cloud();
+	            isScoreHigh = c.isHighScore(score);
+	            latch.countDown(); // Release await() in the UI thread.
+	        }
+	    };
+	    scoreThread.start();
+	    try {
+			latch.await();
+		} catch (InterruptedException e) {
+			Log.e(TAG, "Interrupted contecting cloud!");
+			isScoreHigh = false;//Assume false if we can't get actual value
+		} // Wait for countDown() in the thread
+	    return isScoreHigh;
+	}
+	
+	public Integer GetPlace(){
+		final CountDownLatch latch = new CountDownLatch(1);
+	    Thread scoreThread = new HandlerThread("ScoreHandler"){
+	        @Override
+	        public synchronized void run(){
+	            Cloud c = new Cloud();
+	            place = c.getPlace(score);
+	            latch.countDown(); // Release await() in the UI thread.
+	        }
+	    };
+	    scoreThread.start();
+	    try {
+			latch.await();
+		} catch (InterruptedException e) {
+			Log.e(TAG, "Interrupted contecting cloud!");
+			place = 6;//Assume 6 if we can't get actual value
+		} // Wait for countDown() in the thread
+	    return place;
+	}
 
 }

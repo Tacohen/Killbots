@@ -1,0 +1,119 @@
+package com.tacohen.killbots.UI;
+
+import java.util.Set;
+
+import com.google.common.collect.HashMultimap;
+import com.tacohen.cloud.Cloud;
+import com.tacohen.killbots.R;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Pair;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+
+public class HighScores extends Activity{
+	
+	private HashMultimap<Integer, Pair<String,Integer>> scores = HashMultimap.create(2, 5);
+	private final static String TAG = "HighScores";
+	private Context context;
+	private final Handler myHandler = new Handler();
+	private PopupWindow pw;
+	private LayoutInflater inflater;
+	private View pView;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.high_scores);
+		
+		this.context = getApplicationContext();
+		
+		 LayoutInflater inflater = (LayoutInflater)
+			       this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			    pw = new PopupWindow(
+			       inflater.inflate(R.layout.cloud_communication, null, false), 
+			       100, 
+			       100, 
+			       true);
+			    // The code below assumes that the root container has an id called 'main'
+			    pw.showAtLocation(this.findViewById(R.layout.high_scores), Gravity.CENTER, 0, 0); 
+		GetHighScores();
+		
+	}
+	
+	public void GetHighScores(){
+		  new Thread(new Runnable() {
+ 			@Override
+ 			public void run() {
+ 				Cloud c = new Cloud();
+ 				scores = c.getHighScores();
+ 				AccessUI();
+ 			}
+ 		}).start();
+		
+	}
+	
+	private void UpdateUI(){
+		pop.dismiss();
+		
+		
+		TextView nameText1 = (TextView) findViewById(R.id.nameText1);
+		TextView scoreText1 = (TextView) findViewById(R.id.scoreText1);
+		Set<Pair<String,Integer>> p1 = scores.get(1);
+		Pair<String,Integer> pair1 = p1.iterator().next();
+		nameText1.setText(pair1.first);
+		scoreText1.setText(pair1.second.toString());
+		
+		TextView nameText2 = (TextView) findViewById(R.id.nameText2);
+		TextView scoreText2 = (TextView) findViewById(R.id.scoreText2);
+		Set<Pair<String,Integer>> p2 = scores.get(2);
+		Pair<String,Integer> pair2 = p2.iterator().next();
+		nameText2.setText(pair2.first);
+		scoreText2.setText(pair2.second.toString());
+		
+		TextView nameText3 = (TextView) findViewById(R.id.nameText3);
+		TextView scoreText3 = (TextView) findViewById(R.id.scoreText3);
+		Set<Pair<String,Integer>> p3 = scores.get(3);
+		Pair<String,Integer> pair3 = p3.iterator().next();
+		nameText3.setText(pair3.first);
+		scoreText3.setText(pair3.second.toString());
+		
+		TextView nameText4 = (TextView) findViewById(R.id.nameText4);
+		TextView scoreText4 = (TextView) findViewById(R.id.scoreText4);
+		Set<Pair<String,Integer>> p4 = scores.get(4);
+		Pair<String,Integer> pair4 = p4.iterator().next();
+		nameText4.setText(pair4.first);
+		scoreText4.setText(pair4.second.toString());
+		
+		TextView nameText5 = (TextView) findViewById(R.id.nameText5);
+		TextView scoreText5 = (TextView) findViewById(R.id.scoreText5);
+		Set<Pair<String,Integer>> p5 = scores.get(5);
+		Pair<String,Integer> pair5 = p5.iterator().next();
+		nameText5.setText(pair5.first);
+		scoreText5.setText(pair5.second.toString());
+		
+		
+	}
+	
+	final Runnable updateRunnable = new Runnable() {
+	       public void run() {
+	           //call the activity method that updates the UI
+	           UpdateUI();
+	       }
+	   };
+	   
+	   private void AccessUI()
+	   {
+	        //update the UI using the handler and the runnable
+	        myHandler.post(updateRunnable);
+
+	   }
+
+
+}

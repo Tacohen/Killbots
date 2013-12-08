@@ -11,14 +11,21 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Pair;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 public class HighScores extends Activity{
 	
-	HashMultimap<Integer, Pair<String,Integer>> scores = HashMultimap.create(2, 5);
-	final static String TAG = "HighScores";
+	private HashMultimap<Integer, Pair<String,Integer>> scores = HashMultimap.create(2, 5);
+	private final static String TAG = "HighScores";
 	private Context context;
 	private final Handler myHandler = new Handler();
+	private PopupWindow pw;
+	private LayoutInflater inflater;
+	private View pView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,9 @@ public class HighScores extends Activity{
 	}
 	
 	private void UpdateUI(){
+
+		
+		
 		TextView nameText1 = (TextView) findViewById(R.id.nameText1);
 		TextView scoreText1 = (TextView) findViewById(R.id.scoreText1);
 		Set<Pair<String,Integer>> p1 = scores.get(1);
