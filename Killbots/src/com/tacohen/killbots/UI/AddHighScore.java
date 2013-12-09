@@ -62,13 +62,13 @@ public class AddHighScore extends Activity{
 		TextView placeText = (TextView) findViewById(R.id.placeTextCongrats);
         placeText.setText("Your score is good for "+placeName+" place!");
         
-        EditText text = (EditText)findViewById(R.id.editName);
-        final String name = text.getText().toString();
         
         Button button= (Button) findViewById(R.id.enterNameButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            	EditText text = (EditText)findViewById(R.id.editName);
+            	final String name = text.getText().toString();
                 if (name == null){
     	    		Toast.makeText(getApplicationContext(), "Please enter a name!", Toast.LENGTH_LONG).show();
                 }else{

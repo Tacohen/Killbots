@@ -36,19 +36,24 @@ public final class R {
         public static final int dashboard_travelingwithkids_button_default=0x7f02000c;
         public static final int dashboard_travelingwithkids_button_selected=0x7f02000d;
         public static final int ic_launcher=0x7f02000e;
+        public static final int questionmark=0x7f02000f;
+        public static final int up_arrow=0x7f020010;
     }
     public static final class id {
-        public static final int action_settings=0x7f08002a;
-        public static final int checkedid=0x7f080028;
-        public static final int checkedindex=0x7f080029;
+        public static final int action_settings=0x7f080033;
+        public static final int arrowsText=0x7f080021;
+        public static final int checkedid=0x7f080031;
+        public static final int checkedindex=0x7f080032;
         public static final int congratsText=0x7f080000;
-        public static final int dashboard_button_highScores=0x7f080022;
-        public static final int dashboard_button_howToPlay=0x7f080020;
-        public static final int dashboard_button_playGame=0x7f08001f;
-        public static final int dashboard_button_settings=0x7f080021;
+        public static final int controlsText=0x7f080020;
+        public static final int dashboard_button_highScores=0x7f08002b;
+        public static final int dashboard_button_howToPlay=0x7f080029;
+        public static final int dashboard_button_playGame=0x7f080028;
+        public static final int dashboard_button_settings=0x7f08002a;
         public static final int editName=0x7f080004;
         public static final int editNameTextInstructions=0x7f080003;
         public static final int enterNameButton=0x7f080005;
+        public static final int highScoresInfoText=0x7f080027;
         public static final int intoText=0x7f080006;
         public static final int nameText=0x7f080009;
         public static final int nameText1=0x7f08000d;
@@ -56,11 +61,13 @@ public final class R {
         public static final int nameText3=0x7f080015;
         public static final int nameText4=0x7f080019;
         public static final int nameText5=0x7f08001d;
+        public static final int overviewText=0x7f08001f;
         public static final int placeTextCongrats=0x7f080002;
-        public static final int preferencesIntroText=0x7f080023;
-        public static final int radio0=0x7f080026;
-        public static final int radio1=0x7f080027;
-        public static final int radioGroupUnits=0x7f080025;
+        public static final int preferencesIntroText=0x7f08002c;
+        public static final int questionMark=0x7f080024;
+        public static final int radio0=0x7f08002f;
+        public static final int radio1=0x7f080030;
+        public static final int radioGroupUnits=0x7f08002e;
         public static final int rankText=0x7f080008;
         public static final int rankText1=0x7f08000c;
         public static final int rankText2=0x7f080010;
@@ -74,20 +81,25 @@ public final class R {
         public static final int scoreText4=0x7f08001a;
         public static final int scoreText5=0x7f08001e;
         public static final int scoreTextCongrats=0x7f080001;
+        public static final int scoringDetailsText=0x7f080026;
+        public static final int scoringText=0x7f080025;
         public static final int tableRow1=0x7f080007;
         public static final int tableRow2=0x7f08000b;
         public static final int tableRow3=0x7f08000f;
         public static final int tableRow4=0x7f080013;
         public static final int tableRow5=0x7f080017;
         public static final int tableRow6=0x7f08001b;
-        public static final int unitsText=0x7f080024;
+        public static final int teleporterText=0x7f080023;
+        public static final int unitsText=0x7f08002d;
+        public static final int upArrow=0x7f080022;
     }
     public static final class layout {
         public static final int add_score=0x7f030000;
         public static final int cloud_communication=0x7f030001;
         public static final int high_scores=0x7f030002;
-        public static final int opening=0x7f030003;
-        public static final int settings=0x7f030004;
+        public static final int how_to_play=0x7f030003;
+        public static final int opening=0x7f030004;
+        public static final int settings=0x7f030005;
     }
     public static final class menu {
         public static final int opening=0x7f070000;

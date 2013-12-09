@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/binding_dark"
+    >
+	<LinearLayout
+    	android:orientation="vertical" 
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+        android:stretchColumns="1">
+
+    <TextView
+        android:id="@+id/overviewText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:text="
+        Welcome to Killbots! Your goal is to survive the robot apocolaypse armed with only your wits and a fancy teleporter. The robots will always move straight twoards you, regardless of their fellow bots, so try to outsmart them by making them crash into each other. If you get stuck, use the teleporter- but be careful, it may not teleport you where you want to go!"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/controlsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:text="Controls:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/arrowsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:text="
+        Use the arrows to move the player left,right,up,or down. Remember that every time you make a move, the robots do also."
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <ImageView
+        android:id="@+id/upArrow"
+        android:layout_width="100dip"
+        android:layout_height="fill_parent"
+        android:src="@drawable/up_arrow"/>
+    
+    <TextView
+        android:id="@+id/teleporterText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:text="
+        Use the teleporter to teleport to a random location on the board. Note that it might not be a safe location!"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <ImageView
+        android:id="@+id/questionMark"
+        android:layout_width="100dip"
+        android:layout_height="fill_parent"
+        android:src="@drawable/questionmark"/>
+    
+    <TextView
+        android:id="@+id/scoringText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:text="Scoring"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/scoringDetailsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:text="
+        You start off with 100 points. Moving up,down,left,or right costs 1 point, and teleporting costs 5 points. You get 10 points for each robot you destroy, but lose 20 if you die."
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/highScoresInfoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:text="
+        Have fun playing, and remebr that if you have a top-5 score, you get to be in the worldwide high score table!"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    
+</LinearLayout>
+</ScrollView>
