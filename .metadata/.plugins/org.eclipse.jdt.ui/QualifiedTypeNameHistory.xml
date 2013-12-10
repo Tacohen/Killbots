@@ -46,4 +46,12 @@
 <fullyQualifiedTypeName name="org.apache.http.StatusLine"/>
 <fullyQualifiedTypeName name="org.apache.http.client.methods.HttpPost"/>
 <fullyQualifiedTypeName name="org.apache.http.message.BasicHeader"/>
+<fullyQualifiedTypeName name="org.andengine.opengl.font.FontFactory"/>
+<fullyQualifiedTypeName name="org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas"/>
+<fullyQualifiedTypeName name="org.andengine.opengl.texture.TextureOptions"/>
+<fullyQualifiedTypeName name="at.bartinger.candroid.ingame.Text"/>
+<fullyQualifiedTypeName name="org.andengine.opengl.font.Font"/>
+<fullyQualifiedTypeName name="org.andengine.util.color.Color"/>
+<fullyQualifiedTypeName name="android.graphics.Typeface"/>
+<fullyQualifiedTypeName name="org.andengine.entity.text.Text"/>
 </qualifiedTypeNameHistroy>

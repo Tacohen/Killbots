@@ -3,12 +3,40 @@
         android:orientation="vertical"
         android:padding="10dip"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="fill_parent"
+        android:background="@drawable/binding_dark">
+        
+        <TextView
+		    android:id="@+id/winTextWaiting"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="Thanks for playing! You won!"
+		    android:textColor="#FFFFFF"
+		    android:textAppearance="?android:attr/textAppearanceMedium" />
+        
+        <TextView
+		    android:id="@+id/loseTextWaiting"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="Thanks for playing! Unfortunately, you lost"
+		    android:textColor="#FFFFFF"
+		    android:textAppearance="?android:attr/textAppearanceMedium" />
+        
+        <TextView
+		    android:id="@+id/scoreTextWaiting"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="Your score is: "
+		    android:textColor="#FFFFFF"
+		    android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView         
+            android:id="@+id/serverCommunicationText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dip"
-            android:text="Communicating with server, please be patient..." />
+            android:textColor="#FFFFFF"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Communicating with server to fetch the high scores list, please be patient..." />
 
     </LinearLayout>
