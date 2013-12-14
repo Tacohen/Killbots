@@ -17,7 +17,7 @@ int drawable dashboard_travelingwithkids_button_selected 0x7f02000d
 int drawable ic_launcher 0x7f02000e
 int drawable questionmark 0x7f02000f
 int drawable up_arrow 0x7f020010
-int id action_settings 0x7f080037
+int id action_settings 0x7f08003b
 int id arrowsText 0x7f080025
 int id checkedid 0x7f080035
 int id checkedindex 0x7f080036
@@ -43,9 +43,13 @@ int id nameText4 0x7f08001d
 int id nameText5 0x7f080021
 int id overviewText 0x7f080023
 int id placeTextCongrats 0x7f080002
+int id playerNumber1 0x7f080039
+int id playerNumber2 0x7f08003a
+int id playerNumberTextView 0x7f080037
 int id preferencesIntroText 0x7f080030
 int id questionMark 0x7f080028
 int id radioGroupUnits 0x7f080032
+int id radioGroupUnitsPlayerNumber 0x7f080038
 int id rankText 0x7f08000c
 int id rankText1 0x7f080010
 int id rankText2 0x7f080014

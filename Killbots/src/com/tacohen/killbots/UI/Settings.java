@@ -15,6 +15,7 @@ public class Settings extends Activity{
 
 	private Context context;
 	RadioGroup radioGroup;
+	RadioGroup radioGroupPlayerNumber;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,9 @@ public class Settings extends Activity{
 
 		radioGroup = (RadioGroup)findViewById(R.id.radioGroupUnits);
 		radioGroup.setOnCheckedChangeListener(radioGroupOnCheckedChangeListener);
-
+		
+		radioGroupPlayerNumber = (RadioGroup)findViewById(R.id.radioGroupUnitsPlayerNumber);
+		radioGroupPlayerNumber.setOnCheckedChangeListener(radioGroupOnCheckedChangeListenerPlayerNumber);
 
 		LoadPreferences();
 
@@ -52,12 +55,41 @@ public class Settings extends Activity{
 			}
 
 		}};
+		
+		OnCheckedChangeListener radioGroupOnCheckedChangeListenerPlayerNumber =
+				new OnCheckedChangeListener(){
+
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+				RadioButton checkedRadioButton = (RadioButton)radioGroupPlayerNumber.findViewById(checkedId);
+				int checkedIndex = radioGroupPlayerNumber.indexOfChild(checkedRadioButton);
+
+				//User selected 1
+				if (checkedIndex == 0){
+					SavePreferences("playerNumber", 1);
+				}
+
+				//User selected 2
+				if (checkedIndex == 1){
+					SavePreferences("playerNumber", 2);
+				}
+
+			}};
+
 
 
 		private void SavePreferences(String key, boolean b){
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			SharedPreferences.Editor editor = sharedPreferences.edit();
 			editor.putBoolean(key, b);
+			editor.commit(); 
+		}
+		
+		private void SavePreferences(String key, int i){
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			SharedPreferences.Editor editor = sharedPreferences.edit();
+			editor.putInt(key, i);
 			editor.commit(); 
 		}
 
@@ -68,8 +100,15 @@ public class Settings extends Activity{
 			if (using_multiplayer){
 				savedRadioIndex = 1;
 			}
+			int playerNumber = sharedPreferences.getInt("playerNumber", 1);
+			int savedRadioIndex2 = 0;//default (player1)
+			if (playerNumber == 2){
+				savedRadioIndex2 = 1;
+			}
 			RadioButton savedCheckedRadioButton = (RadioButton) radioGroup.getChildAt(savedRadioIndex);
 			savedCheckedRadioButton.setChecked(true);
+			RadioButton savedCheckedRadioButtonPlayer = (RadioButton) radioGroupPlayerNumber.getChildAt(savedRadioIndex2);
+			savedCheckedRadioButtonPlayer.setChecked(true);
 		}
 
 

@@ -26,16 +26,20 @@ import org.andengine.entity.text.Text;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 
 
 import org.andengine.input.touch.TouchEvent;
 
 import com.tacohen.cloud.Cloud;
+import com.tacohen.cloud.OtherPlayerLocation;
 import com.tacohen.killbots.Logic.CurrentPlayerLocation;
 import com.tacohen.killbots.Logic.GridDimensions;
 import com.tacohen.killbots.Logic.MoveRobots;
@@ -56,8 +60,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 	private static int CAMERA_WIDTH = 800;
 	private static int CAMERA_HEIGHT = 480;
 
-	private ITextureRegion mBackgroundTextureRegion, playerTexture, robotTexture, deadRobotTexture, leftArrow,rightArrow,upArrow,downArrow,questionMark;
-	private Sprite leftArrowSprite,rightArrowSprite,downArrowSprite,upArrowSprite,player, robot1, robot2, robot3, robot4, deadRobot,deadRobot2,deadRobot3;
+	private ITextureRegion mBackgroundTextureRegion, playerTexture, robotTexture, deadRobotTexture, leftArrow,rightArrow,upArrow,downArrow,questionMark,player2Texture;
+	private Sprite leftArrowSprite,rightArrowSprite,downArrowSprite,upArrowSprite,player, robot1, robot2, robot3, robot4, deadRobot,deadRobot2,deadRobot3,player2;
 
 	private ButtonSprite teleportButton;
 
@@ -75,10 +79,15 @@ public class UICanvas extends SimpleBaseGameActivity {
 	ArrayList<Sprite> deadRobotSpritesUnused = new ArrayList<Sprite>();
 
 	private int playerNumber = 1;//placeholder
+	private int otherPlayerNumber = 2;//placeholder
 	
 	private static Context context;
 	
 	private Boolean isTurn;
+	
+	private Boolean usingMultiplayer = false;
+	
+	public static Pair<Integer, Integer> otherPlayerLocationPair;
 	
 
 	@Override
@@ -111,6 +120,12 @@ public class UICanvas extends SimpleBaseGameActivity {
 				@Override
 				public InputStream open() throws IOException {
 					return getAssets().open("gfx/player.png");
+				}
+			});
+			ITexture player2 = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
+				@Override
+				public InputStream open() throws IOException {
+					return getAssets().open("gfx/player2.png");
 				}
 			});
 			ITexture robot = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
@@ -166,6 +181,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 			upArrow.load();
 			downArrow.load();
 			questionMark.load();
+			player2.load();
 
 			// 3 - Set up texture regions
 			this.mBackgroundTextureRegion = TextureRegionFactory.extractFromTexture(backgroundTexture);
@@ -178,7 +194,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 			this.upArrow = TextureRegionFactory.extractFromTexture(upArrow);
 			this.downArrow = TextureRegionFactory.extractFromTexture(downArrow);
 			this.questionMark = TextureRegionFactory.extractFromTexture(questionMark);
+			this.player2Texture = TextureRegionFactory.extractFromTexture(player2);
 
+			
 		} catch (IOException e) {
 			Debug.e(e);
 		}
@@ -196,6 +214,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		RobotLocations.resetLocations();
 		
 		final CurrentPlayerLocation currentPlayerLocation = new CurrentPlayerLocation(this.context);
+		final OtherPlayerLocation otherPlayerLocation = new OtherPlayerLocation(this.context);
 		
 		// 1 - Create new scene
 		final Scene scene = new Scene();
@@ -222,6 +241,24 @@ public class UICanvas extends SimpleBaseGameActivity {
 		}
 		else{
 			isTurn = false;
+		}
+		
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		boolean using_multiplayer = sharedPreferences.getBoolean("multiplayer", false);
+		if (using_multiplayer){
+			usingMultiplayer = true;
+		}
+		playerNumber = sharedPreferences.getInt("playerNumber", 1);
+		if (playerNumber == 1){
+			otherPlayerNumber = 2;
+		}else{
+			otherPlayerNumber = 1;
+			playerNumber = 2;
+		}
+		
+		if (usingMultiplayer){
+			otherPlayerLocationPair = otherPlayerLocation.getPlayerLocation(otherPlayerNumber);
+			Log.i(TAG, "Other player location is: "+otherPlayerLocationPair.toString());
 		}
 
 		//1.5, tacohen, attach the arrows directly to the background
@@ -289,13 +326,35 @@ public class UICanvas extends SimpleBaseGameActivity {
 								}
 								
 							}
-							if (RobotLocations.liveRobotLocations().contains(currentPlayerLocation.getPlayerLocation(playerNumber))){
-								Log.i(TAG, "Player has died!");
-								score -=20;
-								scoreTextNumbers.setText(score.toString());
-								lose();
-							}
 							
+
+						}
+						if (RobotLocations.liveRobotLocations().contains(currentPlayerLocation.getPlayerLocation(playerNumber))){
+							Log.i(TAG, "Player has died!");
+							score -=20;
+							scoreTextNumbers.setText(score.toString());
+							lose();
+						}
+						
+						if (usingMultiplayer){
+							isTurn = false;
+							//time for other player to move
+						}
+					}
+					else{
+						//if the player can't move
+						if (!isTurn){
+							UICanvas.this.runOnUiThread(new Runnable() {
+						        @Override
+						        public void run() {
+						        	Toast.makeText(context, "It's not your turn!", Toast.LENGTH_LONG).show();						        }
+						    });						}
+						else{
+							UICanvas.this.runOnUiThread(new Runnable() {
+						        @Override
+						        public void run() {
+						        	Toast.makeText(context, "There's something in your way!", Toast.LENGTH_LONG).show();						        }
+						    });
 							
 						}
 					}
@@ -371,17 +430,42 @@ public class UICanvas extends SimpleBaseGameActivity {
 								}
 								
 							}
-							if (RobotLocations.liveRobotLocations().contains(currentPlayerLocation.getPlayerLocation(playerNumber))){
-								Log.i(TAG, "Player has died!");
-								score -=20;
-								scoreTextNumbers.setText(score.toString());
-								lose();
-							}
+							
 							
 							
 						}
 						
+						if (RobotLocations.liveRobotLocations().contains(currentPlayerLocation.getPlayerLocation(playerNumber))){
+							Log.i(TAG, "Player has died!");
+							score -=20;
+							scoreTextNumbers.setText(score.toString());
+							lose();
+						}
+						
+						if (usingMultiplayer){
+							isTurn = false;
+							//time for other player to move
+						}
+						
 					}
+					else{
+						//if the player can't move
+						if (!isTurn){
+							UICanvas.this.runOnUiThread(new Runnable() {
+						        @Override
+						        public void run() {
+						        	Toast.makeText(context, "It's not your turn!", Toast.LENGTH_LONG).show();						        }
+						    });						}
+						else{
+							UICanvas.this.runOnUiThread(new Runnable() {
+						        @Override
+						        public void run() {
+						        	Toast.makeText(context, "There's something in your way!", Toast.LENGTH_LONG).show();						        }
+						    });
+							
+						}
+					}
+					
 				}
 				}
 
@@ -454,13 +538,37 @@ public class UICanvas extends SimpleBaseGameActivity {
 								}
 								
 							}
-							if (RobotLocations.liveRobotLocations().contains(currentPlayerLocation.getPlayerLocation(playerNumber))){
-								Log.i(TAG, "Player has died!");
-								score -=20;
-								scoreTextNumbers.setText(score.toString());
-								lose();
-							}
 							
+							
+							
+						}
+						
+						if (RobotLocations.liveRobotLocations().contains(currentPlayerLocation.getPlayerLocation(playerNumber))){
+							Log.i(TAG, "Player has died!");
+							score -=20;
+							scoreTextNumbers.setText(score.toString());
+							lose();
+						}
+						
+						if (usingMultiplayer){
+							isTurn = false;
+							//time for other player to move
+						}
+					}
+					else{
+						//if the player can't move
+						if (!isTurn){
+							UICanvas.this.runOnUiThread(new Runnable() {
+						        @Override
+						        public void run() {
+						        	Toast.makeText(context, "It's not your turn!", Toast.LENGTH_LONG).show();						        }
+						    });						}
+						else{
+							UICanvas.this.runOnUiThread(new Runnable() {
+						        @Override
+						        public void run() {
+						        	Toast.makeText(context, "There's something in your way!", Toast.LENGTH_LONG).show();						        }
+						    });
 							
 						}
 					}
@@ -546,7 +654,29 @@ public class UICanvas extends SimpleBaseGameActivity {
 							scoreTextNumbers.setText(score.toString());
 							lose();
 						}
+						
+						if (usingMultiplayer){
+							isTurn = false;
+							//time for other player to move
+						}
 
+					}
+					else{
+						//if the player can't move
+						if (!isTurn){
+							UICanvas.this.runOnUiThread(new Runnable() {
+						        @Override
+						        public void run() {
+						        	Toast.makeText(context, "It's not your turn!", Toast.LENGTH_LONG).show();						        }
+						    });						}
+						else{
+							UICanvas.this.runOnUiThread(new Runnable() {
+						        @Override
+						        public void run() {
+						        	Toast.makeText(context, "There's something in your way!", Toast.LENGTH_LONG).show();						        }
+						    });
+							
+						}
 					}
 				}
 				}
@@ -621,7 +751,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 						
 						
 					}
-
+					
+					
+					
 					if ((RobotLocations.liveRobotLocations().contains(currentPlayerLocation.getPlayerLocation(playerNumber)) || 
 							RobotLocations.deadRobotLocations().contains(currentPlayerLocation.getPlayerLocation(playerNumber)))){
 						Log.i(TAG, "Player has died!");
@@ -629,12 +761,28 @@ public class UICanvas extends SimpleBaseGameActivity {
 						scoreTextNumbers.setText(score.toString());
 						lose();
 					}
+					
+					if (usingMultiplayer){
+						isTurn = false;
+						//time for other player to move
+					}
 
-
-
-
+					
 					return true;
 				}
+				else{
+					//if the player can't move
+					if (!isTurn){
+						UICanvas.this.runOnUiThread(new Runnable() {
+					        @Override
+					        public void run() {
+					        	Toast.makeText(context, "It's not your turn!", Toast.LENGTH_LONG).show();						        }
+					    });						
+						}
+
+				}
+				
+				
 				return false;
 			}
 
@@ -679,6 +827,11 @@ public class UICanvas extends SimpleBaseGameActivity {
 		//Place dead robot way off the screen edge do it can't be seen until needed!
 		deadRobot3 = new Sprite(1002,900, this.deadRobotTexture, getVertexBufferObjectManager());// {
 		RobotLocations.setDeadRobotLocation(13,13);
+		
+		if(usingMultiplayer){
+			player2 = new Sprite(327,177, this.player2Texture, getVertexBufferObjectManager());// {
+			otherPlayerLocation.setPlayerLocation(6, 5, otherPlayerNumber);
+		}
 	
 		scene.attachChild(player);
 		scene.attachChild(robot1);
@@ -688,6 +841,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 		scene.attachChild(deadRobot);
 		scene.attachChild(deadRobot2);
 		scene.attachChild(deadRobot3);
+		if(usingMultiplayer){
+			scene.attachChild(player2);
+		}
 
 
 		robotsList.add(0,robot1);

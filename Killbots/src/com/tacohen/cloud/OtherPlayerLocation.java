@@ -12,7 +12,7 @@ import android.util.Pair;
 public class OtherPlayerLocation {
 	private static String TAG = "CurrentPlayerLocation";
 	private static Cloud c;
-	public static Pair<Integer, Integer> currentPlayerLocation;
+	public static Pair<Integer, Integer> otherPlayerLocation;
 	private static boolean usingMultiplayer = false;
 
 	
@@ -54,7 +54,7 @@ public class OtherPlayerLocation {
 		}
 		else{
 			//if local
-			currentPlayerLocation = Pair.create(xValue, yValue);
+			otherPlayerLocation = Pair.create(xValue, yValue);
 		}
 	}
 	
@@ -82,7 +82,7 @@ public class OtherPlayerLocation {
 			} // Wait for countDown() in the UI thread.
 		}
 		}else{
-			return currentPlayerLocation.first;
+			return otherPlayerLocation.first;
 		}
 	}
 	public int getPlayerYLocation(final int playerNumber){
@@ -111,7 +111,7 @@ public class OtherPlayerLocation {
 		}
 		else{
 			//if local
-			return currentPlayerLocation.second;
+			return otherPlayerLocation.second;
 		}
 	}
 	
@@ -141,7 +141,7 @@ public class OtherPlayerLocation {
 		}
 		else{
 			//if local
-			return currentPlayerLocation;
+			return otherPlayerLocation;
 		}
 	}
 	
