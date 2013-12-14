@@ -3,12 +3,15 @@ package com.tacohen.killbots.Logic;
 import java.util.List;
 import java.util.Random;
 
+import com.tacohen.killbots.UI.Opening;
 import android.util.Log;
 import android.util.Pair;
 
 public class PlayerMovement implements IPlayerMovement{
 
 	private static String TAG = "PlayerMovement";
+	
+	private CurrentPlayerLocation currentPlayerLocation = new CurrentPlayerLocation(Opening.getAppContext());
 
 	@Override
 	public boolean canPlayerMoveLeft(Pair<Integer, Integer> p) {
@@ -79,9 +82,9 @@ public class PlayerMovement implements IPlayerMovement{
 	}
 
 	@Override
-	public boolean isPlayerTrapped() {
-		Integer currentXValue = CurrentPlayerLocation.currentPlayerLocation.first;
-		Integer currentYValue = CurrentPlayerLocation.currentPlayerLocation.second;
+	public boolean isPlayerTrapped(int playerNumber) {
+		Integer currentXValue = currentPlayerLocation.getPlayerXLocation(playerNumber);
+		Integer currentYValue = currentPlayerLocation.getPlayerYLocation(playerNumber);
 		Pair<Integer,Integer> curLoc = Pair.create(currentXValue,currentYValue);
 		if ((canPlayerMoveUp(curLoc))|(canPlayerMoveDown(curLoc))|
 				(canPlayerMoveLeft(curLoc))|(canPlayerMoveRight(curLoc))){
@@ -93,14 +96,14 @@ public class PlayerMovement implements IPlayerMovement{
 	}
 
 	@Override
-	public void setPlayerPosition(Pair<Integer, Integer> p) {
-		CurrentPlayerLocation.setPlayerLocation(p.first,p.second);
+	public void setPlayerPosition(Pair<Integer, Integer> p,int playerNumber) {
+		currentPlayerLocation.setPlayerLocation(p.first,p.second,playerNumber);
 		
 	}
 
 	@Override
-	public Pair<Integer, Integer> getPlayerPosition(Pair<Integer, Integer> p) {
-		return CurrentPlayerLocation.currentPlayerLocation;
+	public Pair<Integer, Integer> getPlayerPosition(Pair<Integer, Integer> p,int playerNumber) {
+		return currentPlayerLocation.getPlayerLocation(playerNumber);
 	}
 
 	@Override
@@ -134,5 +137,6 @@ public class PlayerMovement implements IPlayerMovement{
 		Integer newYlocation = r.nextInt(GridDimensions.width - 0);
 		return Pair.create(newXlocation, newYlocation);
 	}
+
 
 }

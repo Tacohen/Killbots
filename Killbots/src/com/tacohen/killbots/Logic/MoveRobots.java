@@ -21,6 +21,7 @@ public class MoveRobots {
 		int desiredXValue = 0;
 		int desiredYValue = 0;
 		
+		/**
 		//Have the robot go the direction they need to go the most
 		//If there is a tie, favor X direction arbitrarily
 		//TODO: find a better method than arbitrarily favoring X
@@ -48,6 +49,49 @@ public class MoveRobots {
 				desiredXValue = robotXLocation + 1;
 			}
 			Log.i(TAG, "Moving in X Direction, desired XValue is: "+desiredXValue);
+		}
+		*/
+		if (robotXLocation == playerXLocation){
+			//move in Y direction only
+			desiredXValue = robotXLocation;
+			Log.i(TAG, "Moving in Y Direction, desired XValue is: "+desiredXValue);
+			if (yValueDifference > 0){
+				desiredYValue = robotYLocation - 1;
+			}
+			else{
+				desiredYValue = robotYLocation + 1;
+			}
+			Log.i(TAG, "Moving in Y Direction, desired YValue is: "+desiredYValue);
+		}
+		else{
+			if (robotYLocation == playerYLocation){
+				desiredYValue = robotYLocation;
+				Log.i(TAG, "Moving in X Direction, desired YValue is: "+desiredYValue);
+				if (xValueDifference > 0){
+					desiredXValue = robotXLocation - 1;
+				}
+				else{
+					desiredXValue = robotXLocation + 1;
+				}
+				Log.i(TAG, "Moving in X Direction, desired XValue is: "+desiredXValue);
+			}
+			else{
+				//move diagonally
+				if (xValueDifference > 0){
+					desiredXValue = robotXLocation - 1;
+				}
+				else{
+					desiredXValue = robotXLocation + 1;
+				}
+				Log.i(TAG, "Moving diagonally, desired XValue is: "+desiredXValue);
+				if (yValueDifference > 0){
+					desiredYValue = robotYLocation - 1;
+				}
+				else{
+					desiredYValue = robotYLocation + 1;
+				}
+				Log.i(TAG, "Moving diagonally, desired YValue is: "+desiredYValue);
+			}
 		}
 
 		return Pair.create(desiredXValue, desiredYValue);

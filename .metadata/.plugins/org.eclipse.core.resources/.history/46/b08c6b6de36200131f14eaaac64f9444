@@ -1,0 +1,88 @@
+package com.tacohen.killbots.Logic;
+
+import java.util.concurrent.CountDownLatch;
+
+import com.tacohen.cloud.Cloud;
+
+import android.os.HandlerThread;
+import android.util.Log;
+import android.util.Pair;
+
+public class CurrentPlayerLocation {
+	
+		private static Cloud c = new Cloud();
+		
+		private static String TAG = "CurrentPlayerLocation";
+
+		//public static Pair<Integer, Integer> currentPlayerLocation;
+		
+		public static void setPlayerLocation(Integer xValue, Integer yValue){
+			//currentPlayerLocation = Pair.create(xValue, yValue);
+			{   
+			    final CountDownLatch latch = new CountDownLatch(1);
+			    final int[] xLoc = new int[1];
+			    Thread uiThread = new HandlerThread("UIHandler"){
+			        @Override
+			        public synchronized void run(){
+			            c.sendPlayerLocation(1, xValue, yValue);
+			            latch.countDown(); // Release await() in the test thread.
+			        }
+			    };
+			    uiThread.start();
+			    try {
+					latch.await();
+				} catch (InterruptedException e) {
+
+				} // Wait for countDown() in the UI thread.
+			    
+			}
+		}
+		}
+		public static int getPlayerXLocation(){
+			//return currentPlayerLocation.first;
+			{   
+			    final CountDownLatch latch = new CountDownLatch(1);
+			    final int[] xLoc = new int[1];
+			    Thread uiThread = new HandlerThread("UIHandler"){
+			        @Override
+			        public synchronized void run(){
+			            xLoc[0] = c.getPlayerLocation(1).first;
+			            latch.countDown(); // Release await() in the test thread.
+			        }
+			    };
+			    uiThread.start();
+			    try {
+					latch.await();
+					return xLoc[0];
+				} catch (InterruptedException e) {
+					Log.e(TAG, "Could not get player location, assuming 5!");
+					return 5;
+				} // Wait for countDown() in the UI thread.
+			    
+			}
+		}
+		public static int getPlayerYLocation(){
+			//return currentPlayerLocation.second;
+			{   
+			    final CountDownLatch latch = new CountDownLatch(1);
+			    final int[] xLoc = new int[1];
+			    Thread uiThread = new HandlerThread("UIHandler"){
+			        @Override
+			        public synchronized void run(){
+			            xLoc[0] = c.getPlayerLocation(1).second;
+			            latch.countDown(); // Release await() in the test thread.
+			        }
+			    };
+			    uiThread.start();
+			    try {
+					latch.await();
+					return xLoc[0];
+				} catch (InterruptedException e) {
+					Log.e(TAG, "Could not get player location, assuming 5!");
+					return 5;
+				} // Wait for countDown() in the UI thread.
+			    
+			}
+		}
+		}
+}

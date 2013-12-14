@@ -32,7 +32,9 @@ int id editNameTextInstructions 0x7f080003
 int id enterNameButton 0x7f080005
 int id highScoresInfoText 0x7f08002b
 int id intoText 0x7f08000a
+int id local 0x7f080033
 int id loseTextWaiting 0x7f080007
+int id multiplayer 0x7f080034
 int id nameText 0x7f08000d
 int id nameText1 0x7f080011
 int id nameText2 0x7f080015
@@ -43,8 +45,6 @@ int id overviewText 0x7f080023
 int id placeTextCongrats 0x7f080002
 int id preferencesIntroText 0x7f080030
 int id questionMark 0x7f080028
-int id radio0 0x7f080033
-int id radio1 0x7f080034
 int id radioGroupUnits 0x7f080032
 int id rankText 0x7f08000c
 int id rankText1 0x7f080010

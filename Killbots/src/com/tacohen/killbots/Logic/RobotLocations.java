@@ -50,5 +50,9 @@ public class RobotLocations{
 		deadRobotLocations.remove(Pair.create(xValue, yValue));
 	}
 	
+	public static void resetLocations(){
+		liveRobotLocations = new ArrayList<Pair<Integer, Integer>>();
+		deadRobotLocations = new ArrayList<Pair<Integer, Integer>>();
+	}
 
 }

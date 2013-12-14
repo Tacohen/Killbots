@@ -32,19 +32,19 @@ public interface IPlayerMovement {
 	 * @param Pair representing player's current location
 	 * @return boolean
 	 */
-	boolean isPlayerTrapped();
-	
+	boolean isPlayerTrapped(int playerNumber);	
 	/**
 	 * Set the player's new position
 	 * @param Pair representing player's new location
 	 */
-	void setPlayerPosition(Pair<Integer, Integer> p);
+	void setPlayerPosition(Pair<Integer, Integer> p, int playerNumber);
 	/**
 	 * Get the player's position
 	 * @param Pair representing player's current location
 	 * @return Pair representing player's current location
 	 */
-	Pair<Integer, Integer> getPlayerPosition(Pair<Integer, Integer> p);
+	Pair<Integer, Integer> getPlayerPosition(Pair<Integer, Integer> p,
+			int playerNumber);
 	/**
 	 * Is there a robot at this location?
 	 * @param Pair representing location in question
@@ -64,4 +64,6 @@ public interface IPlayerMovement {
 	 * @return Pair representing new player location
 	 */
 	Pair<Integer,Integer> teleportPlayer();
+	
+	
 }

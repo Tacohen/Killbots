@@ -22,7 +22,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/preferencesIntroText"
         android:layout_marginTop="14dp"
-        android:text="@string/placeholder"
+        android:text="Local Game or Multiplayer?"
         android:textColor="@android:color/white"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -34,19 +34,19 @@
         android:layout_below="@+id/unitsText" >
 
         <RadioButton
-            android:id="@+id/radio0"
+            android:id="@+id/local"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:textColor="@android:color/white"
-            android:text="@string/trueString"/>
+            android:text="Local"/>
 
         <RadioButton
-            android:id="@+id/radio1"
+            android:id="@+id/multiplayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            android:text="@string/falseString" />
+            android:text="Multiplayer" />
 
     </RadioGroup>
 

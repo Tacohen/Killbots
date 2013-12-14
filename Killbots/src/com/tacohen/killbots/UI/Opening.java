@@ -6,6 +6,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.util.Log;
@@ -17,12 +18,15 @@ public class Opening extends Activity {
 
 	public GLSurfaceView mGLView;
 	private String TAG = "Opening";
+	private static Context context;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.opening);
+		
+		this.context = getApplicationContext();
 		
 		//Force landscape mode
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -66,6 +70,10 @@ public class Opening extends Activity {
                 startActivity(i);
             }
         }
+    }
+	
+	public static Context getAppContext() {
+        return Opening.context;
     }
 
 }

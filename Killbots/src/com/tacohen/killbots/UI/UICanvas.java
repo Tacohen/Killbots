@@ -24,20 +24,18 @@ import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.TextView;
-import android.view.ViewGroup.LayoutParams;
 
 
 
 import org.andengine.input.touch.TouchEvent;
 
+import com.tacohen.cloud.Cloud;
 import com.tacohen.killbots.Logic.CurrentPlayerLocation;
 import com.tacohen.killbots.Logic.GridDimensions;
 import com.tacohen.killbots.Logic.MoveRobots;
@@ -59,7 +57,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 	private static int CAMERA_HEIGHT = 480;
 
 	private ITextureRegion mBackgroundTextureRegion, playerTexture, robotTexture, deadRobotTexture, leftArrow,rightArrow,upArrow,downArrow,questionMark;
-	private Sprite leftArrowSprite,rightArrowSprite,downArrowSprite,upArrowSprite,player, robot1, robot2, deadRobot;
+	private Sprite leftArrowSprite,rightArrowSprite,downArrowSprite,upArrowSprite,player, robot1, robot2, robot3, robot4, deadRobot,deadRobot2,deadRobot3;
 
 	private ButtonSprite teleportButton;
 
@@ -73,14 +71,15 @@ public class UICanvas extends SimpleBaseGameActivity {
 	private ArrayList<Sprite> robotsList = new ArrayList<Sprite>();
 
 	private Font mFont;
+	
+	ArrayList<Sprite> deadRobotSpritesUnused = new ArrayList<Sprite>();
 
-	private PopupWindow popUp;
-	//private LinearLayout mainLayout;
-	LinearLayout layout;
-	TextView tv;
-	LayoutParams params;
-
-
+	private int playerNumber = 1;//placeholder
+	
+	private static Context context;
+	
+	private Boolean isTurn;
+	
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -92,18 +91,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 	@Override
 	protected void onCreateResources() {
 		try {
-
-			//mainLayout = new LinearLayout(this);
-			popUp = new PopupWindow(this);
-			layout = new LinearLayout(this);
-			params = new LayoutParams(LayoutParams.WRAP_CONTENT,
-					LayoutParams.WRAP_CONTENT);
-			layout.setOrientation(LinearLayout.VERTICAL);
-			tv = new TextView(this);
-			tv.setText("Hi this is a sample text for popup window");
-			layout.addView(tv, params);
-			popUp.setContentView(layout);
-
+			
+			
 
 			this.mFont = FontFactory.create(this.getFontManager(), this.getTextureManager(), 256, 256, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48);
 			this.mFont.load();
@@ -200,6 +189,14 @@ public class UICanvas extends SimpleBaseGameActivity {
 
 	@Override
 	protected Scene onCreateScene() {
+		
+		this.context = getApplicationContext();
+		
+		//Stop screwing up locations when replaying the game
+		RobotLocations.resetLocations();
+		
+		final CurrentPlayerLocation currentPlayerLocation = new CurrentPlayerLocation(this.context);
+		
 		// 1 - Create new scene
 		final Scene scene = new Scene();
 		Sprite backgroundSprite = new Sprite(0, 0, this.mBackgroundTextureRegion, getVertexBufferObjectManager());
@@ -217,7 +214,15 @@ public class UICanvas extends SimpleBaseGameActivity {
 
 		robotCount = 0;
 
-
+		Cloud cloud = new Cloud();
+		
+		//player 1 goes first
+		if (playerNumber == 1){
+			isTurn = true;
+		}
+		else{
+			isTurn = false;
+		}
 
 		//1.5, tacohen, attach the arrows directly to the background
 		leftArrowSprite = new Sprite(530,100, this.leftArrow, getVertexBufferObjectManager()){
@@ -227,49 +232,71 @@ public class UICanvas extends SimpleBaseGameActivity {
 				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
 				case MotionEvent.ACTION_UP:{
 					Log.i(TAG, "Touched Left Arrow");
-					score -= 1;
-					scoreTextNumbers.setText(score.toString());
+					
 					Log.i(TAG, "Player moved, score is now: "+score);
-					if (playerMovement.canPlayerMoveLeft(new Pair<Integer, Integer>(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()))){
+					if ((playerMovement.canPlayerMoveLeft(new Pair<Integer, Integer>(currentPlayerLocation.getPlayerXLocation(playerNumber), currentPlayerLocation.getPlayerYLocation(playerNumber))) && isTurn)){
 						player.setPosition(player.getX()-47,player.getY());
-						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation()-1, CurrentPlayerLocation.getPlayerYLocation());
-						Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(0);
-						Log.i(TAG,"old robot1 location is: "+robotLoc.first+","+robotLoc.second);
-						Log.i(TAG, "new player location is: "+CurrentPlayerLocation.getPlayerXLocation()+","+CurrentPlayerLocation.getPlayerYLocation());
-						Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,CurrentPlayerLocation.getPlayerXLocation()+1,CurrentPlayerLocation.getPlayerYLocation());
-						Log.i(TAG,"new robot1 location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
-						robot1.setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
-						RobotLocations.moveRobotLocation(0,newRobotLocation.first, newRobotLocation.second);
-
-						Pair<Integer, Integer> robotLoc2 = RobotLocations.liveRobotLocations.get(1);
-						Log.i(TAG,"old robot2 location is: "+robotLoc2.first+","+robotLoc2.second);
-						Pair<Integer,Integer> newRobotLocation2 = moveRobots.desiredRobotLocation(robotLoc2.first, robotLoc2.second,CurrentPlayerLocation.getPlayerXLocation(),CurrentPlayerLocation.getPlayerYLocation()+1);
-						Log.i(TAG,"new robot2 location is:"+newRobotLocation2.first+" , "+newRobotLocation2.second);
-						robot2.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-						RobotLocations.moveRobotLocation(1,newRobotLocation2.first, newRobotLocation2.second);
-
-
-						if (RobotLocations.liveRobotLocations().contains(CurrentPlayerLocation.currentPlayerLocation)){
-							Log.i(TAG, "Player has died!");
-							score -=20;
-							scoreTextNumbers.setText(score.toString());
-							lose();
-						}
-
-						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
-							Log.i(TAG, "Robots have collided!");
-							score += 10;
-							scoreTextNumbers.setText(score.toString());
-							Log.i(TAG, "Player killed two robots, score is now: "+score);
-							robotCount -= 2;
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
-							RobotLocations.removeRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
-							if (robotCount == 0){
-								win();
+						currentPlayerLocation.setPlayerLocation(currentPlayerLocation.getPlayerXLocation(playerNumber)-1, currentPlayerLocation.getPlayerYLocation(playerNumber),playerNumber);
+						
+						score -= 1;
+						scoreTextNumbers.setText(score.toString());
+						
+						for (int i = 0; i< robotCount; i++){
+							Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(i);
+							Log.i(TAG,"old robot "+i+" location is: "+robotLoc.first+","+robotLoc.second);
+							Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,currentPlayerLocation.getPlayerXLocation(playerNumber),currentPlayerLocation.getPlayerYLocation(playerNumber));
+							Log.i(TAG,"new robot "+i+" location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
+							if (RobotLocations.liveRobotLocations.contains(newRobotLocation)){
+								Log.i(TAG, "Robots collided!");
+								//robot dies
+								RobotLocations.removeRobotLocation(newRobotLocation.first, newRobotLocation.first);
+								Sprite robot = robotsList.get(i);
+								for (int i2 = 0; i2< robotCount; i2++){
+									Sprite robot2 = robotsList.get(i2);
+									if (robot.equals(robot2)){
+										robotsList.remove(robot);
+										robotsList.remove(robot2);
+										robotCount -= 2;
+										score += 10;
+										scene.detachChild(robot);
+										scene.detachChild(robot2);
+										deadRobotSpritesUnused.get(0).setPosition(RobotLocations.liveRobotLocations.get(i).first*47, RobotLocations.liveRobotLocations.get(i).second*47);
+										//mark this sprite as used
+										deadRobotSpritesUnused.remove(0);
+										RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
+										if (robotCount == 0){
+											win();
+										}
+									}
+								}
+							}else{
+								if (RobotLocations.deadRobotLocations.contains(newRobotLocation)){
+									Log.i(TAG, "Robot ran into dead robot!");
+									RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
+									Sprite robot = robotsList.get(i);
+									scene.detachChild(robot);
+									robotsList.remove(robot);
+									robotCount -= 1;
+									score += 5;
+									if (robotCount == 0){
+										win();
+									}
+								}
+								else{
+									//robot moves
+									RobotLocations.moveRobotLocation(i,newRobotLocation.first, newRobotLocation.second);
+									robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
+								}
+								
 							}
+							if (RobotLocations.liveRobotLocations().contains(currentPlayerLocation.getPlayerLocation(playerNumber))){
+								Log.i(TAG, "Player has died!");
+								score -=20;
+								scoreTextNumbers.setText(score.toString());
+								lose();
+							}
+							
+							
 						}
 					}
 				}
@@ -287,51 +314,73 @@ public class UICanvas extends SimpleBaseGameActivity {
 				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
 				case MotionEvent.ACTION_UP:{
 					Log.i(TAG, "Touched Right Arrow");
-					score -= 1;
-					scoreTextNumbers.setText(score.toString());
-					Log.i(TAG, "Player moved, score is now: "+score);
-					if (playerMovement.canPlayerMoveRight(new Pair<Integer, Integer>(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()))){
+					
+					if ((playerMovement.canPlayerMoveRight(new Pair<Integer, Integer>(currentPlayerLocation.getPlayerXLocation(playerNumber), currentPlayerLocation.getPlayerYLocation(playerNumber))) && isTurn)){
 						player.setPosition(player.getX()+47,player.getY());
-						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation()+1, CurrentPlayerLocation.getPlayerYLocation());
-
-						Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(0);
-						Log.i(TAG,"old robot1 location is: "+robotLoc.first+","+robotLoc.second);
-						Log.i(TAG, "new player location is: "+CurrentPlayerLocation.getPlayerXLocation()+","+CurrentPlayerLocation.getPlayerYLocation());
-						Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,CurrentPlayerLocation.getPlayerXLocation()-1,CurrentPlayerLocation.getPlayerYLocation());
-						Log.i(TAG,"new robot1 location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
-						robot1.setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
-						RobotLocations.moveRobotLocation(0,newRobotLocation.first, newRobotLocation.second);
-
-						Pair<Integer, Integer> robotLoc2 = RobotLocations.liveRobotLocations.get(1);
-						Log.i(TAG,"old robot2 location is: "+robotLoc2.first+","+robotLoc2.second);
-						Pair<Integer,Integer> newRobotLocation2 = moveRobots.desiredRobotLocation(robotLoc2.first, robotLoc2.second,CurrentPlayerLocation.getPlayerXLocation(),CurrentPlayerLocation.getPlayerYLocation()+1);
-						Log.i(TAG,"new robot2 location is:"+newRobotLocation2.first+" , "+newRobotLocation2.second);
-						robot2.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-						RobotLocations.moveRobotLocation(1,newRobotLocation2.first, newRobotLocation2.second);
-
-
-						if (RobotLocations.liveRobotLocations().contains(CurrentPlayerLocation.currentPlayerLocation)){
-							Log.i(TAG, "Player has died!");
-							score -=20;
-							scoreTextNumbers.setText(score.toString());
-							lose();
-						}
-
-						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
-							Log.i(TAG, "Robots have collided!");
-							score += 10;
-							scoreTextNumbers.setText(score.toString());
-							Log.i(TAG, "Player killed two robots, score is now: "+score);
-							robotCount -= 2;
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
-							RobotLocations.removeRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
-							if (robotCount == 0){
-								win();
+						currentPlayerLocation.setPlayerLocation(currentPlayerLocation.getPlayerXLocation(playerNumber)+1, currentPlayerLocation.getPlayerYLocation(playerNumber),playerNumber);
+						
+						score -= 1;
+						scoreTextNumbers.setText(score.toString());
+						Log.i(TAG, "Player moved, score is now: "+score);
+						
+						for (int i = 0; i< robotCount; i++){
+							Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(i);
+							Log.i(TAG,"old robot "+i+" location is: "+robotLoc.first+","+robotLoc.second);
+							Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,currentPlayerLocation.getPlayerXLocation(playerNumber),currentPlayerLocation.getPlayerYLocation(playerNumber));
+							Log.i(TAG,"new robot "+i+" location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
+							if (RobotLocations.liveRobotLocations.contains(newRobotLocation)){
+								Log.i(TAG, "Robots collided!");
+								//robot dies
+								RobotLocations.removeRobotLocation(newRobotLocation.first, newRobotLocation.first);
+								Sprite robot = robotsList.get(i);
+								for (int i2 = 0; i2< robotCount; i2++){
+									Sprite robot2 = robotsList.get(i2);
+									if (robot.equals(robot2)){
+										robotsList.remove(robot);
+										robotsList.remove(robot2);
+										robotCount -= 2;
+										score += 10;
+										scene.detachChild(robot);
+										scene.detachChild(robot2);
+										deadRobotSpritesUnused.get(0).setPosition(RobotLocations.liveRobotLocations.get(i).first*47, RobotLocations.liveRobotLocations.get(i).second*47);
+										//mark this sprite as used
+										deadRobotSpritesUnused.remove(0);
+										RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
+										if (robotCount == 0){
+											win();
+										}
+									}
+								}
+							}else{
+								if (RobotLocations.deadRobotLocations.contains(newRobotLocation)){
+									Log.i(TAG, "Robot ran into dead robot!");
+									RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
+									Sprite robot = robotsList.get(i);
+									scene.detachChild(robot);
+									robotsList.remove(robot);
+									robotCount -= 1;
+									score += 5;
+									if (robotCount == 0){
+										win();
+									}
+								}
+								else{
+									//robot moves
+									RobotLocations.moveRobotLocation(i,newRobotLocation.first, newRobotLocation.second);
+									robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
+								}
+								
 							}
+							if (RobotLocations.liveRobotLocations().contains(currentPlayerLocation.getPlayerLocation(playerNumber))){
+								Log.i(TAG, "Player has died!");
+								score -=20;
+								scoreTextNumbers.setText(score.toString());
+								lose();
+							}
+							
+							
 						}
+						
 					}
 				}
 				}
@@ -348,50 +397,71 @@ public class UICanvas extends SimpleBaseGameActivity {
 				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
 				case MotionEvent.ACTION_UP:{
 					Log.i(TAG, "Touched Up Arrow");
-					score -= 1;
-					scoreTextNumbers.setText(score.toString());
-					Log.i(TAG, "Player moved, score is now: "+score);
-					if (playerMovement.canPlayerMoveUp(new Pair<Integer, Integer>(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()))){
+					
+					if ((playerMovement.canPlayerMoveUp(new Pair<Integer, Integer>(currentPlayerLocation.getPlayerXLocation(playerNumber), currentPlayerLocation.getPlayerYLocation(playerNumber))) && isTurn)){
 						player.setPosition(player.getX(),player.getY()-47);
-						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()-1);
-
-						Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(0);
-						Log.i(TAG,"old robot1 location is: "+robotLoc.first+","+robotLoc.second);
-						Log.i(TAG, "new player location is: "+CurrentPlayerLocation.getPlayerXLocation()+","+CurrentPlayerLocation.getPlayerYLocation());
-						Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,CurrentPlayerLocation.getPlayerXLocation(),CurrentPlayerLocation.getPlayerYLocation()-1);
-						Log.i(TAG,"new robot1 location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
-						robot1.setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
-						RobotLocations.moveRobotLocation(0,newRobotLocation.first, newRobotLocation.second);
-
-						Pair<Integer, Integer> robotLoc2 = RobotLocations.liveRobotLocations.get(1);
-						Log.i(TAG,"old robot2 location is: "+robotLoc2.first+","+robotLoc2.second);
-						Pair<Integer,Integer> newRobotLocation2 = moveRobots.desiredRobotLocation(robotLoc2.first, robotLoc2.second,CurrentPlayerLocation.getPlayerXLocation(),CurrentPlayerLocation.getPlayerYLocation()+1);
-						Log.i(TAG,"new robot2 location is:"+newRobotLocation2.first+" , "+newRobotLocation2.second);
-						robot2.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-						RobotLocations.moveRobotLocation(1,newRobotLocation2.first, newRobotLocation2.second);
-
-
-						if (RobotLocations.liveRobotLocations().contains(CurrentPlayerLocation.currentPlayerLocation)){
-							Log.i(TAG, "Player has died!");
-							score -=20;
-							scoreTextNumbers.setText(score.toString());
-							lose();
-						}
-
-						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
-							Log.i(TAG, "Robots have collided!");
-							score += 10;
-							scoreTextNumbers.setText(score.toString());
-							Log.i(TAG, "Player killed two robots, score is now: "+score);
-							robotCount -= 2;
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
-							RobotLocations.removeRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
-							if (robotCount == 0){
-								win();
+						currentPlayerLocation.setPlayerLocation(currentPlayerLocation.getPlayerXLocation(playerNumber), currentPlayerLocation.getPlayerYLocation(playerNumber)-1,playerNumber);
+						
+						score -= 1;
+						scoreTextNumbers.setText(score.toString());
+						Log.i(TAG, "Player moved, score is now: "+score);
+						
+						for (int i = 0; i< robotCount; i++){
+							Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(i);
+							Log.i(TAG,"old robot "+i+" location is: "+robotLoc.first+","+robotLoc.second);
+							Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,currentPlayerLocation.getPlayerXLocation(playerNumber),currentPlayerLocation.getPlayerYLocation(playerNumber));
+							Log.i(TAG,"new robot "+i+" location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
+							if (RobotLocations.liveRobotLocations.contains(newRobotLocation)){
+								Log.i(TAG, "Robots collided!");
+								//robot dies
+								RobotLocations.removeRobotLocation(newRobotLocation.first, newRobotLocation.first);
+								Sprite robot = robotsList.get(i);
+								for (int i2 = 0; i2< robotCount; i2++){
+									Sprite robot2 = robotsList.get(i2);
+									if (robot.equals(robot2)){
+										robotsList.remove(robot);
+										robotsList.remove(robot2);
+										robotCount -= 2;
+										score += 10;
+										scene.detachChild(robot);
+										scene.detachChild(robot2);
+										deadRobotSpritesUnused.get(0).setPosition(RobotLocations.liveRobotLocations.get(i).first*47, RobotLocations.liveRobotLocations.get(i).second*47);
+										//mark this sprite as used
+										deadRobotSpritesUnused.remove(0);
+										RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
+										if (robotCount == 0){
+											win();
+										}
+									}
+								}
+							}else{
+								if (RobotLocations.deadRobotLocations.contains(newRobotLocation)){
+									Log.i(TAG, "Robot ran into dead robot!");
+									RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
+									Sprite robot = robotsList.get(i);
+									scene.detachChild(robot);
+									robotsList.remove(robot);
+									robotCount -= 1;
+									score += 5;
+									if (robotCount == 0){
+										win();
+									}
+								}
+								else{
+									//robot moves
+									RobotLocations.moveRobotLocation(i,newRobotLocation.first, newRobotLocation.second);
+									robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
+								}
+								
 							}
+							if (RobotLocations.liveRobotLocations().contains(currentPlayerLocation.getPlayerLocation(playerNumber))){
+								Log.i(TAG, "Player has died!");
+								score -=20;
+								scoreTextNumbers.setText(score.toString());
+								lose();
+							}
+							
+							
 						}
 					}
 				}
@@ -409,45 +479,68 @@ public class UICanvas extends SimpleBaseGameActivity {
 				//Only move the player sprite once the user lifts his/her finger to prevent accidental multi-touching
 				case MotionEvent.ACTION_UP:{
 					Log.i(TAG, "Touched Down Arrow");
-					score -= 1;
-					scoreTextNumbers.setText(score.toString());
-					Log.i(TAG, "Player moved, score is now: "+score);
-					if (playerMovement.canPlayerMoveDown(new Pair<Integer, Integer>(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()))){
+					
+					if ((playerMovement.canPlayerMoveDown(new Pair<Integer, Integer>(currentPlayerLocation.getPlayerXLocation(playerNumber), currentPlayerLocation.getPlayerYLocation(playerNumber))) && isTurn)){
 						player.setPosition(player.getX(),player.getY()+47);
-						CurrentPlayerLocation.setPlayerLocation(CurrentPlayerLocation.getPlayerXLocation(), CurrentPlayerLocation.getPlayerYLocation()+1);
-
-						Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(0);
-						Log.i(TAG,"old robot1 location is: "+robotLoc.first+","+robotLoc.second);
-						Log.i(TAG, "new player location is: "+CurrentPlayerLocation.getPlayerXLocation()+","+CurrentPlayerLocation.getPlayerYLocation());
-						Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,CurrentPlayerLocation.getPlayerXLocation(),CurrentPlayerLocation.getPlayerYLocation()+1);
-						Log.i(TAG,"new robot1 location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
-						robot1.setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
-						RobotLocations.moveRobotLocation(0,newRobotLocation.first, newRobotLocation.second);
-
-						Pair<Integer, Integer> robotLoc2 = RobotLocations.liveRobotLocations.get(1);
-						Log.i(TAG,"old robot2 location is: "+robotLoc2.first+","+robotLoc2.second);
-						Pair<Integer,Integer> newRobotLocation2 = moveRobots.desiredRobotLocation(robotLoc2.first, robotLoc2.second,CurrentPlayerLocation.getPlayerXLocation(),CurrentPlayerLocation.getPlayerYLocation()+1);
-						Log.i(TAG,"new robot2 location is:"+newRobotLocation2.first+" , "+newRobotLocation2.second);
-						robot2.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-						RobotLocations.moveRobotLocation(1,newRobotLocation2.first, newRobotLocation2.second);
-
-						if (RobotLocations.liveRobotLocations.get(1).equals(RobotLocations.liveRobotLocations.get(0))){
-							Log.i(TAG, "Robots have collided!");
-							score += 10;
-							scoreTextNumbers.setText(score.toString());
-							Log.i(TAG, "Player killed two robots, score is now: "+score);
-							robotCount -= 2;
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(newRobotLocation2.first*47, newRobotLocation2.second*47);
-							RobotLocations.setDeadRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
-							RobotLocations.removeRobotLocation(newRobotLocation2.first,newRobotLocation2.second);
-							if (robotCount == 0){
-								win();
+						currentPlayerLocation.setPlayerLocation(currentPlayerLocation.getPlayerXLocation(playerNumber), currentPlayerLocation.getPlayerYLocation(playerNumber)+1,playerNumber);
+						
+						score -= 1;
+						scoreTextNumbers.setText(score.toString());
+						Log.i(TAG, "Player moved, score is now: "+score);
+						
+						for (int i = 0; i< robotCount; i++){
+							Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(i);
+							Log.i(TAG,"old robot "+i+" location is: "+robotLoc.first+","+robotLoc.second);
+							Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,currentPlayerLocation.getPlayerXLocation(playerNumber),currentPlayerLocation.getPlayerYLocation(playerNumber));
+							Log.i(TAG,"new robot "+i+" location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
+							if (RobotLocations.liveRobotLocations.contains(newRobotLocation)){
+								Log.i(TAG, "Robots collided!");
+								//robot dies
+								RobotLocations.removeRobotLocation(newRobotLocation.first, newRobotLocation.first);
+								Sprite robot = robotsList.get(i);
+								for (int i2 = 0; i2< robotCount; i2++){
+									Sprite robot2 = robotsList.get(i2);
+									if (robot.equals(robot2)){
+										robotsList.remove(robot);
+										robotsList.remove(robot2);
+										robotCount -= 2;
+										score += 10;
+										scene.detachChild(robot);
+										scene.detachChild(robot2);
+										deadRobotSpritesUnused.get(0).setPosition(RobotLocations.liveRobotLocations.get(i).first*47, RobotLocations.liveRobotLocations.get(i).second*47);
+										//mark this sprite as used
+										deadRobotSpritesUnused.remove(0);
+										RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
+										if (robotCount == 0){
+											win();
+										}
+									}
+								}
+							}else{
+								if (RobotLocations.deadRobotLocations.contains(newRobotLocation)){
+									Log.i(TAG, "Robot ran into dead robot!");
+									RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
+									Sprite robot = robotsList.get(i);
+									scene.detachChild(robot);
+									robotsList.remove(robot);
+									robotCount -= 1;
+									score += 5;
+									if (robotCount == 0){
+										win();
+									}
+								}
+								else{
+									//robot moves
+									RobotLocations.moveRobotLocation(i,newRobotLocation.first, newRobotLocation.second);
+									robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
+								}
+								
 							}
+							
+							
 						}
 
-						if (RobotLocations.liveRobotLocations().contains(CurrentPlayerLocation.currentPlayerLocation)){
+						if (RobotLocations.liveRobotLocations().contains(currentPlayerLocation.getPlayerLocation(playerNumber))){
 							Log.i(TAG, "Player has died!");
 							score -=20;
 							scoreTextNumbers.setText(score.toString());
@@ -466,7 +559,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		teleportButton = new ButtonSprite(675, 340, this.questionMark, this.getVertexBufferObjectManager()){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {                                         
-				if(pSceneTouchEvent.isActionUp()) {
+				if ((pSceneTouchEvent.isActionUp() && isTurn)) {
 					Log.i(TAG,"User touched teleport button!");
 					score -= 5;
 					scoreTextNumbers.setText(score.toString());
@@ -475,36 +568,62 @@ public class UICanvas extends SimpleBaseGameActivity {
 					Log.i(TAG, "Teleported, new location is: "+newLocation.first.toString()+" , "+newLocation.second.toString());
 
 					player.setPosition(newLocation.first*47,newLocation.second*47);
-					CurrentPlayerLocation.setPlayerLocation(newLocation.first, newLocation.second);
+					currentPlayerLocation.setPlayerLocation(newLocation.first, newLocation.second,playerNumber);
 
 					for (int i = 0; i< robotCount; i++){
 						Pair<Integer, Integer> robotLoc = RobotLocations.liveRobotLocations.get(i);
 						Log.i(TAG,"old robot "+i+" location is: "+robotLoc.first+","+robotLoc.second);
-						Log.i(TAG, "new player location is: "+CurrentPlayerLocation.getPlayerXLocation()+","+CurrentPlayerLocation.getPlayerYLocation());
-						Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,CurrentPlayerLocation.getPlayerXLocation(),CurrentPlayerLocation.getPlayerYLocation());
+						Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,currentPlayerLocation.getPlayerXLocation(playerNumber),currentPlayerLocation.getPlayerYLocation(playerNumber));
 						Log.i(TAG,"new robot "+i+" location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
-						robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
-						RobotLocations.moveRobotLocation(i,newRobotLocation.first, newRobotLocation.second);
-
-						if (RobotLocations.liveRobotLocations.get(0).equals(RobotLocations.liveRobotLocations.get(1))){
-							Log.i(TAG, "Robots have collided!");
-							score += 10;
-							scoreTextNumbers.setText(score.toString());
-							Log.i(TAG, "Player killed two robots, score is now: "+score);
-							robotCount -= 2;
-							scene.detachChild(robot1);
-							scene.detachChild(robot2);
-							deadRobot.setPosition(RobotLocations.liveRobotLocations.get(i).first*47, RobotLocations.liveRobotLocations.get(i).second*47);
-							RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
-							RobotLocations.removeRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
-							if (robotCount == 0){
-								win();
+						if (RobotLocations.liveRobotLocations.contains(newRobotLocation)){
+							Log.i(TAG, "Robots collided!");
+							//robot dies
+							RobotLocations.removeRobotLocation(newRobotLocation.first, newRobotLocation.first);
+							Sprite robot = robotsList.get(i);
+							for (int i2 = 0; i2< robotCount; i2++){
+								Sprite robot2 = robotsList.get(i2);
+								if (robot.equals(robot2)){
+									robotsList.remove(robot);
+									robotsList.remove(robot2);
+									robotCount -= 2;
+									score += 10;
+									scene.detachChild(robot);
+									scene.detachChild(robot2);
+									deadRobotSpritesUnused.get(0).setPosition(RobotLocations.liveRobotLocations.get(i).first*47, RobotLocations.liveRobotLocations.get(i).second*47);
+									//mark this sprite as used
+									deadRobotSpritesUnused.remove(0);
+									RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
+									if (robotCount == 0){
+										win();
+									}
+								}
 							}
+						}else{
+							if (RobotLocations.deadRobotLocations.contains(newRobotLocation)){
+								Log.i(TAG, "Robot ran into dead robot!");
+								RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
+								Sprite robot = robotsList.get(i);
+								scene.detachChild(robot);
+								robotsList.remove(robot);
+								robotCount -= 1;
+								score += 5;
+								if (robotCount == 0){
+									win();
+								}
+							}
+							else{
+								//robot moves
+								RobotLocations.moveRobotLocation(i,newRobotLocation.first, newRobotLocation.second);
+								robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
+							}
+							
 						}
+						
+						
 					}
 
-					if ((RobotLocations.liveRobotLocations().contains(CurrentPlayerLocation.currentPlayerLocation) || 
-							RobotLocations.deadRobotLocations().contains(CurrentPlayerLocation.currentPlayerLocation))){
+					if ((RobotLocations.liveRobotLocations().contains(currentPlayerLocation.getPlayerLocation(playerNumber)) || 
+							RobotLocations.deadRobotLocations().contains(currentPlayerLocation.getPlayerLocation(playerNumber)))){
 						Log.i(TAG, "Player has died!");
 						score -=20;
 						scoreTextNumbers.setText(score.toString());
@@ -531,7 +650,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 		//player = new Sprite(327,177, this.playerTexture, getVertexBufferObjectManager());// {
 		//CurrentPlayerLocation.setPlayerLocation(6, 5);
 		player = new Sprite(376,0, this.playerTexture, getVertexBufferObjectManager());
-		CurrentPlayerLocation.setPlayerLocation(8, 0);
+		currentPlayerLocation.setPlayerLocation(8, 0,playerNumber);
+		cloud.addPlayer(playerNumber, 8, 0);
 
 		//Placeholder location values, replace later!
 		robot1 = new Sprite(47,0, this.robotTexture, getVertexBufferObjectManager());
@@ -541,20 +661,44 @@ public class UICanvas extends SimpleBaseGameActivity {
 		robot2 = new Sprite(423,224, this.robotTexture, getVertexBufferObjectManager());
 		RobotLocations.setRobotLocation(9,5);
 		robotCount += 1;
-
+	
+		robot3 = new Sprite(94,47, this.robotTexture, getVertexBufferObjectManager());
+		RobotLocations.setRobotLocation(2,1);
+		robotCount += 1;
+		
+		robot4 = new Sprite(376,318, this.robotTexture, getVertexBufferObjectManager());
+		RobotLocations.setRobotLocation(8,7);
+		robotCount += 1;
+	
 		//Place dead robot way off the screen edge do it can't be seen until needed!
 		deadRobot = new Sprite(900,900, this.deadRobotTexture, getVertexBufferObjectManager());// {
 		RobotLocations.setDeadRobotLocation(11,11);
-
+		//Place dead robot way off the screen edge do it can't be seen until needed!
+		deadRobot2 = new Sprite(951,900, this.deadRobotTexture, getVertexBufferObjectManager());// {
+		RobotLocations.setDeadRobotLocation(12,12);
+		//Place dead robot way off the screen edge do it can't be seen until needed!
+		deadRobot3 = new Sprite(1002,900, this.deadRobotTexture, getVertexBufferObjectManager());// {
+		RobotLocations.setDeadRobotLocation(13,13);
+	
 		scene.attachChild(player);
 		scene.attachChild(robot1);
 		scene.attachChild(robot2);
+		scene.attachChild(robot3);
+		scene.attachChild(robot4);
 		scene.attachChild(deadRobot);
+		scene.attachChild(deadRobot2);
+		scene.attachChild(deadRobot3);
 
 
 		robotsList.add(0,robot1);
 		robotsList.add(1,robot2);
-
+		robotsList.add(2,robot3);
+		robotsList.add(3,robot4);
+		
+		deadRobotSpritesUnused.add(deadRobot3);
+		deadRobotSpritesUnused.add(deadRobot2);
+		deadRobotSpritesUnused.add(deadRobot);
+		
 		//Add touch handlers
 		scene.registerTouchArea(downArrowSprite);
 		scene.registerTouchArea(leftArrowSprite);
@@ -583,4 +727,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 		startActivityForResult(i,0);
 		finish();
 	}
+	
+	public static Context getAppContext() {
+        return UICanvas.context;
+    }
 }

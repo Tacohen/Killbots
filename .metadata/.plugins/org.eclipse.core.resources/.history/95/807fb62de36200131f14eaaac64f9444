@@ -1,0 +1,43 @@
+package com.tacohen.killbots.Logic;
+
+import java.util.concurrent.CountDownLatch;
+
+import com.tacohen.cloud.Cloud;
+
+import android.os.HandlerThread;
+import android.util.Pair;
+
+public class CurrentPlayerLocation {
+	
+		private Cloud c = new Cloud();
+
+		//public static Pair<Integer, Integer> currentPlayerLocation;
+		
+		public static void setPlayerLocation(Integer xValue, Integer yValue){
+			//currentPlayerLocation = Pair.create(xValue, yValue);
+		}
+		public static int getPlayerXLocation(){
+			//return currentPlayerLocation.first;
+			{   
+			    final CountDownLatch latch = new CountDownLatch(1);
+			    final int xLoc;
+			    Thread uiThread = new HandlerThread("UIHandler"){
+			        @Override
+			        public synchronized void run(){
+			            c.
+			            latch.countDown(); // Release await() in the test thread.
+			        }
+			    };
+			    uiThread.start();
+			    try {
+					latch.await();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} // Wait for countDown() in the UI thread.
+
+			}
+		}
+		public static int getPlayerYLocation(){
+			//return currentPlayerLocation.second;
+		}
+}

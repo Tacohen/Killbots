@@ -55,7 +55,9 @@ public final class R {
         public static final int enterNameButton=0x7f080005;
         public static final int highScoresInfoText=0x7f08002b;
         public static final int intoText=0x7f08000a;
+        public static final int local=0x7f080033;
         public static final int loseTextWaiting=0x7f080007;
+        public static final int multiplayer=0x7f080034;
         public static final int nameText=0x7f08000d;
         public static final int nameText1=0x7f080011;
         public static final int nameText2=0x7f080015;
@@ -66,8 +68,6 @@ public final class R {
         public static final int placeTextCongrats=0x7f080002;
         public static final int preferencesIntroText=0x7f080030;
         public static final int questionMark=0x7f080028;
-        public static final int radio0=0x7f080033;
-        public static final int radio1=0x7f080034;
         public static final int radioGroupUnits=0x7f080032;
         public static final int rankText=0x7f08000c;
         public static final int rankText1=0x7f080010;
