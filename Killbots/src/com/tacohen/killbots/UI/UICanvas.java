@@ -88,7 +88,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 	private Boolean usingMultiplayer = false;
 	
 	public static Pair<Integer, Integer> otherPlayerLocationPair;
+	public static Pair<Integer, Integer> otherPlayerLocationPairOld;
 	
+	private static int timeBetweenServerCalls = 2000;//in milliseconds
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -233,7 +235,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 
 		robotCount = 0;
 
-		Cloud cloud = new Cloud();
+		final Cloud cloud = new Cloud();
 		
 		//player 1 goes first
 		if (playerNumber == 1){
@@ -322,7 +324,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 								else{
 									//robot moves
 									RobotLocations.moveRobotLocation(i,newRobotLocation.first, newRobotLocation.second);
-									robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
+									robotsList.get(i).setPosition((newRobotLocation.first+1)*47, newRobotLocation.second*47);
 								}
 								
 							}
@@ -339,6 +341,21 @@ public class UICanvas extends SimpleBaseGameActivity {
 						if (usingMultiplayer){
 							isTurn = false;
 							//time for other player to move
+							otherPlayerLocationPairOld = otherPlayerLocationPair;
+							UICanvas.this.runOnUiThread(new Runnable() {
+						        @Override
+						        public void run() {
+						        	Toast.makeText(context, "Waiting for other player!", Toast.LENGTH_SHORT).show();						        }
+						    });
+							while (cloud.getPlayerLocation(otherPlayerNumber).equals(otherPlayerLocationPairOld)){
+								Log.i(TAG, "Waiting for other player!");
+								//wait for specified milliseconds before calling again
+								android.os.SystemClock.sleep(timeBetweenServerCalls);
+							}
+							Log.i(TAG,"Other player moved!");
+							//other player moved
+							player2.setPosition((otherPlayerLocationPair.first+1)*47,otherPlayerLocationPair.second*47);
+							isTurn = true;
 						}
 					}
 					else{
@@ -348,7 +365,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 						        @Override
 						        public void run() {
 						        	Toast.makeText(context, "It's not your turn!", Toast.LENGTH_LONG).show();						        }
-						    });						}
+						    });						
+							}
 						else{
 							UICanvas.this.runOnUiThread(new Runnable() {
 						        @Override
@@ -378,6 +396,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 						player.setPosition(player.getX()+47,player.getY());
 						currentPlayerLocation.setPlayerLocation(currentPlayerLocation.getPlayerXLocation(playerNumber)+1, currentPlayerLocation.getPlayerYLocation(playerNumber),playerNumber);
 						
+						//cloud.sendPlayerLocation(playerNumber,currentPlayerLocation.get , mBlendFunctionDestination);
+						
 						score -= 1;
 						scoreTextNumbers.setText(score.toString());
 						Log.i(TAG, "Player moved, score is now: "+score);
@@ -401,7 +421,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 										score += 10;
 										scene.detachChild(robot);
 										scene.detachChild(robot2);
-										deadRobotSpritesUnused.get(0).setPosition(RobotLocations.liveRobotLocations.get(i).first*47, RobotLocations.liveRobotLocations.get(i).second*47);
+										deadRobotSpritesUnused.get(0).setPosition((RobotLocations.liveRobotLocations.get(i).first+1)*47, RobotLocations.liveRobotLocations.get(i).second*47);
 										//mark this sprite as used
 										deadRobotSpritesUnused.remove(0);
 										RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
@@ -426,7 +446,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 								else{
 									//robot moves
 									RobotLocations.moveRobotLocation(i,newRobotLocation.first, newRobotLocation.second);
-									robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
+									robotsList.get(i).setPosition((newRobotLocation.first+1)*47, newRobotLocation.second*47);
 								}
 								
 							}
@@ -445,6 +465,20 @@ public class UICanvas extends SimpleBaseGameActivity {
 						if (usingMultiplayer){
 							isTurn = false;
 							//time for other player to move
+							otherPlayerLocationPairOld = otherPlayerLocationPair;
+							UICanvas.this.runOnUiThread(new Runnable() {
+						        @Override
+						        public void run() {
+						        	Toast.makeText(context, "Waiting for other player!", Toast.LENGTH_SHORT).show();						        }
+						    });
+							while (cloud.getPlayerLocation(otherPlayerNumber).equals(otherPlayerLocationPairOld)){
+								Log.i(TAG, "Waiting for other player!");
+								//wait for specified milliseconds before calling again
+								android.os.SystemClock.sleep(timeBetweenServerCalls);
+							}
+							//other player moved
+							player2.setPosition((otherPlayerLocationPair.first+1)*47,otherPlayerLocationPair.second*47);
+							isTurn = true;
 						}
 						
 					}
@@ -455,7 +489,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 						        @Override
 						        public void run() {
 						        	Toast.makeText(context, "It's not your turn!", Toast.LENGTH_LONG).show();						        }
-						    });						}
+						    });						
+							}
 						else{
 							UICanvas.this.runOnUiThread(new Runnable() {
 						        @Override
@@ -509,7 +544,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 										score += 10;
 										scene.detachChild(robot);
 										scene.detachChild(robot2);
-										deadRobotSpritesUnused.get(0).setPosition(RobotLocations.liveRobotLocations.get(i).first*47, RobotLocations.liveRobotLocations.get(i).second*47);
+										deadRobotSpritesUnused.get(0).setPosition((RobotLocations.liveRobotLocations.get(i).first+1)*47, RobotLocations.liveRobotLocations.get(i).second*47);
 										//mark this sprite as used
 										deadRobotSpritesUnused.remove(0);
 										RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
@@ -534,7 +569,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 								else{
 									//robot moves
 									RobotLocations.moveRobotLocation(i,newRobotLocation.first, newRobotLocation.second);
-									robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
+									robotsList.get(i).setPosition((newRobotLocation.first+1)*47, newRobotLocation.second*47);
 								}
 								
 							}
@@ -553,6 +588,20 @@ public class UICanvas extends SimpleBaseGameActivity {
 						if (usingMultiplayer){
 							isTurn = false;
 							//time for other player to move
+							otherPlayerLocationPairOld = otherPlayerLocationPair;
+							UICanvas.this.runOnUiThread(new Runnable() {
+						        @Override
+						        public void run() {
+						        	Toast.makeText(context, "Waiting for other player!", Toast.LENGTH_SHORT).show();						        }
+						    });
+							while (cloud.getPlayerLocation(otherPlayerNumber).equals(otherPlayerLocationPairOld)){
+								Log.i(TAG, "Waiting for other player!");
+								//wait for specified milliseconds before calling again
+								android.os.SystemClock.sleep(timeBetweenServerCalls);
+							}
+							//other player moved
+							player2.setPosition((otherPlayerLocationPair.first+1)*47,otherPlayerLocationPair.second*47);
+							isTurn = true;
 						}
 					}
 					else{
@@ -562,7 +611,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 						        @Override
 						        public void run() {
 						        	Toast.makeText(context, "It's not your turn!", Toast.LENGTH_LONG).show();						        }
-						    });						}
+						    });						
+							}
 						else{
 							UICanvas.this.runOnUiThread(new Runnable() {
 						        @Override
@@ -589,8 +639,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 					Log.i(TAG, "Touched Down Arrow");
 					
 					if ((playerMovement.canPlayerMoveDown(new Pair<Integer, Integer>(currentPlayerLocation.getPlayerXLocation(playerNumber), currentPlayerLocation.getPlayerYLocation(playerNumber))) && isTurn)){
-						player.setPosition(player.getX(),player.getY()+47);
-						currentPlayerLocation.setPlayerLocation(currentPlayerLocation.getPlayerXLocation(playerNumber), currentPlayerLocation.getPlayerYLocation(playerNumber)+1,playerNumber);
+						player.setPosition((player.getX()),player.getY()+47);
+						Log.i(TAG,"Moving down, now location in pixels is: "+(player.getX())+" , "+player.getY()+47);
+						currentPlayerLocation.setPlayerLocation(currentPlayerLocation.getPlayerXLocation(playerNumber)+1, currentPlayerLocation.getPlayerYLocation(playerNumber),playerNumber);
 						
 						score -= 1;
 						scoreTextNumbers.setText(score.toString());
@@ -615,7 +666,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 										score += 10;
 										scene.detachChild(robot);
 										scene.detachChild(robot2);
-										deadRobotSpritesUnused.get(0).setPosition(RobotLocations.liveRobotLocations.get(i).first*47, RobotLocations.liveRobotLocations.get(i).second*47);
+										deadRobotSpritesUnused.get(0).setPosition((RobotLocations.liveRobotLocations.get(i).first+1)*47, RobotLocations.liveRobotLocations.get(i).second*47);
 										//mark this sprite as used
 										deadRobotSpritesUnused.remove(0);
 										RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
@@ -640,7 +691,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 								else{
 									//robot moves
 									RobotLocations.moveRobotLocation(i,newRobotLocation.first, newRobotLocation.second);
-									robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
+									robotsList.get(i).setPosition((newRobotLocation.first+1)*47, newRobotLocation.second*47);
 								}
 								
 							}
@@ -658,6 +709,20 @@ public class UICanvas extends SimpleBaseGameActivity {
 						if (usingMultiplayer){
 							isTurn = false;
 							//time for other player to move
+							otherPlayerLocationPairOld = otherPlayerLocationPair;
+							UICanvas.this.runOnUiThread(new Runnable() {
+						        @Override
+						        public void run() {
+						        	Toast.makeText(context, "Waiting for other player!", Toast.LENGTH_SHORT).show();						        }
+						    });
+							while (cloud.getPlayerLocation(otherPlayerNumber).equals(otherPlayerLocationPairOld)){
+								Log.i(TAG, "Waiting for other player!");
+								//wait for specified milliseconds before calling again
+								android.os.SystemClock.sleep(timeBetweenServerCalls);
+							}
+							//other player moved
+							player2.setPosition((otherPlayerLocationPair.first+1)*47,otherPlayerLocationPair.second*47);
+							isTurn = true;
 						}
 
 					}
@@ -668,7 +733,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 						        @Override
 						        public void run() {
 						        	Toast.makeText(context, "It's not your turn!", Toast.LENGTH_LONG).show();						        }
-						    });						}
+						    });						
+							}
 						else{
 							UICanvas.this.runOnUiThread(new Runnable() {
 						        @Override
@@ -697,7 +763,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 					Pair<Integer,Integer> newLocation = playerMovement.teleportPlayer();
 					Log.i(TAG, "Teleported, new location is: "+newLocation.first.toString()+" , "+newLocation.second.toString());
 
-					player.setPosition(newLocation.first*47,newLocation.second*47);
+					player.setPosition((newLocation.first+1)*47,newLocation.second*47);
 					currentPlayerLocation.setPlayerLocation(newLocation.first, newLocation.second,playerNumber);
 
 					for (int i = 0; i< robotCount; i++){
@@ -719,7 +785,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 									score += 10;
 									scene.detachChild(robot);
 									scene.detachChild(robot2);
-									deadRobotSpritesUnused.get(0).setPosition(RobotLocations.liveRobotLocations.get(i).first*47, RobotLocations.liveRobotLocations.get(i).second*47);
+									deadRobotSpritesUnused.get(0).setPosition((RobotLocations.liveRobotLocations.get(i).first+1)*47, RobotLocations.liveRobotLocations.get(i).second*47);
 									//mark this sprite as used
 									deadRobotSpritesUnused.remove(0);
 									RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
@@ -744,7 +810,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 							else{
 								//robot moves
 								RobotLocations.moveRobotLocation(i,newRobotLocation.first, newRobotLocation.second);
-								robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
+								robotsList.get(i).setPosition((newRobotLocation.first+1)*47, newRobotLocation.second*47);
 							}
 							
 						}
@@ -764,7 +830,21 @@ public class UICanvas extends SimpleBaseGameActivity {
 					
 					if (usingMultiplayer){
 						isTurn = false;
-						//time for other player to move
+						otherPlayerLocationPairOld = otherPlayerLocationPair;
+						UICanvas.this.runOnUiThread(new Runnable() {
+					        @Override
+					        public void run() {
+					        	Toast.makeText(context, "Waiting for other player!", Toast.LENGTH_SHORT).show();						        }
+					    });
+						while (cloud.getPlayerLocation(otherPlayerNumber).equals(otherPlayerLocationPairOld)){
+							Log.i(TAG, "Waiting for other player!");
+							//wait for specified milliseconds before calling again
+							android.os.SystemClock.sleep(timeBetweenServerCalls);
+							
+						}
+						//other player moved
+						player2.setPosition((otherPlayerLocationPair.first+1)*47,otherPlayerLocationPair.second*47);
+						isTurn = true;
 					}
 
 					
