@@ -56,10 +56,10 @@ public class MoveRobots {
 			desiredXValue = robotXLocation;
 			Log.i(TAG, "Moving in Y Direction, desired XValue is: "+desiredXValue);
 			if (yValueDifference > 0){
-				desiredYValue = robotYLocation - 1;
+				desiredYValue = robotYLocation + 1;
 			}
 			else{
-				desiredYValue = robotYLocation + 1;
+				desiredYValue = robotYLocation - 1;
 			}
 			Log.i(TAG, "Moving in Y Direction, desired YValue is: "+desiredYValue);
 		}
@@ -85,10 +85,10 @@ public class MoveRobots {
 				}
 				Log.i(TAG, "Moving diagonally, desired XValue is: "+desiredXValue);
 				if (yValueDifference > 0){
-					desiredYValue = robotYLocation - 1;
+					desiredYValue = robotYLocation + 1;
 				}
 				else{
-					desiredYValue = robotYLocation + 1;
+					desiredYValue = robotYLocation - 1;
 				}
 				Log.i(TAG, "Moving diagonally, desired YValue is: "+desiredYValue);
 			}
