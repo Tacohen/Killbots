@@ -207,7 +207,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 
 	@Override
 	protected Scene onCreateScene() {
-				
+		
+		//this.mMusic.play();
+		
 		this.context = getApplicationContext();
 		
 		//Stop screwing up locations when replaying the game
