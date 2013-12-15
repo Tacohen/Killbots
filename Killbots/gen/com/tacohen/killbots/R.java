@@ -40,7 +40,7 @@ public final class R {
         public static final int up_arrow=0x7f020010;
     }
     public static final class id {
-        public static final int action_settings=0x7f08003b;
+        public static final int action_settings=0x7f08003f;
         public static final int arrowsText=0x7f080025;
         public static final int checkedid=0x7f080035;
         public static final int checkedindex=0x7f080036;
@@ -58,6 +58,9 @@ public final class R {
         public static final int local=0x7f080033;
         public static final int loseTextWaiting=0x7f080007;
         public static final int multiplayer=0x7f080034;
+        public static final int musicOff=0x7f08003e;
+        public static final int musicOn=0x7f08003d;
+        public static final int musicTextView=0x7f08003b;
         public static final int nameText=0x7f08000d;
         public static final int nameText1=0x7f080011;
         public static final int nameText2=0x7f080015;
@@ -71,6 +74,7 @@ public final class R {
         public static final int playerNumberTextView=0x7f080037;
         public static final int preferencesIntroText=0x7f080030;
         public static final int questionMark=0x7f080028;
+        public static final int radioGroupMusic=0x7f08003c;
         public static final int radioGroupUnits=0x7f080032;
         public static final int radioGroupUnitsPlayerNumber=0x7f080038;
         public static final int rankText=0x7f08000c;

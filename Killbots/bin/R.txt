@@ -17,7 +17,7 @@ int drawable dashboard_travelingwithkids_button_selected 0x7f02000d
 int drawable ic_launcher 0x7f02000e
 int drawable questionmark 0x7f02000f
 int drawable up_arrow 0x7f020010
-int id action_settings 0x7f08003b
+int id action_settings 0x7f08003f
 int id arrowsText 0x7f080025
 int id checkedid 0x7f080035
 int id checkedindex 0x7f080036
@@ -35,6 +35,9 @@ int id intoText 0x7f08000a
 int id local 0x7f080033
 int id loseTextWaiting 0x7f080007
 int id multiplayer 0x7f080034
+int id musicOff 0x7f08003e
+int id musicOn 0x7f08003d
+int id musicTextView 0x7f08003b
 int id nameText 0x7f08000d
 int id nameText1 0x7f080011
 int id nameText2 0x7f080015
@@ -48,6 +51,7 @@ int id playerNumber2 0x7f08003a
 int id playerNumberTextView 0x7f080037
 int id preferencesIntroText 0x7f080030
 int id questionMark 0x7f080028
+int id radioGroupMusic 0x7f08003c
 int id radioGroupUnits 0x7f080032
 int id radioGroupUnitsPlayerNumber 0x7f080038
 int id rankText 0x7f08000c

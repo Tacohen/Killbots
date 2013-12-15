@@ -94,6 +94,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 	private static int timeBetweenServerCalls = 2000;//in milliseconds
 
     private Music mMusic;
+    
+    private boolean usingMusic = true;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -223,7 +225,6 @@ public class UICanvas extends SimpleBaseGameActivity {
 	@Override
 	protected Scene onCreateScene() {
 		
-		this.mMusic.play();
 				
 		this.context = getApplicationContext();
 		
@@ -272,6 +273,15 @@ public class UICanvas extends SimpleBaseGameActivity {
 			otherPlayerNumber = 1;
 			playerNumber = 2;
 		}
+		boolean using_music = sharedPreferences.getBoolean("musicOn", true);
+		if (using_music){
+			usingMusic = true;
+			this.mMusic.play();
+		}else{
+			usingMusic = false;
+		}
+		
+
 		
 		if (usingMultiplayer){
 			otherPlayerLocationPair = otherPlayerLocation.getPlayerLocation(otherPlayerNumber);
@@ -736,7 +746,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 		i.putExtra("didWin", false);
 		i.putExtra("score", score);
 		startActivityForResult(i,0);
-		this.mMusic.pause();
+		if (usingMusic){
+			this.mMusic.pause();
+		}
 		finish();
 	}
 
@@ -746,7 +758,9 @@ public class UICanvas extends SimpleBaseGameActivity {
 		i.putExtra("didWin", true);
 		i.putExtra("score", score);
 		startActivityForResult(i,0);
-		this.mMusic.pause();
+		if (usingMusic){
+			this.mMusic.pause();
+		}		
 		finish();
 	}
 	
