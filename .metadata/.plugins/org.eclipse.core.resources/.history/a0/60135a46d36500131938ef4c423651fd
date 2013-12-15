@@ -107,7 +107,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/checkedid"
         android:textColor="@android:color/white"
-        android:text="Background Music" />
+        android:text="Backround Music" />
     
         <RadioGroup
         android:id="@+id/radioGroupMusic"
