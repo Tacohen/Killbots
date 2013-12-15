@@ -1,5 +1,7 @@
 package com.tacohen.killbots.UI;
 
+import org.andengine.audio.music.Music;
+import org.andengine.audio.music.MusicFactory;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
@@ -91,19 +93,31 @@ public class UICanvas extends SimpleBaseGameActivity {
 	public static Pair<Integer, Integer> otherPlayerLocationPairOld;
 	
 	private static int timeBetweenServerCalls = 2000;//in milliseconds
+	
+	private Music mMusic;
+
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, 
 				new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+	
 	}
 
 	@Override
 	protected void onCreateResources() {
 		try {
-			
-			
+			/**
+			MusicFactory.setAssetBasePath("music/");
+            try {
+                    this.mMusic = MusicFactory.createMusicFromAsset(this.mEngine.getMusicManager(), this, "MainTheme.mp3");
+                    this.mMusic.setLooping(true);
+            } catch (final IOException e) {
+                    Log.e(TAG, "Could not load music!");
+            }
+			*/
+
 
 			this.mFont = FontFactory.create(this.getFontManager(), this.getTextureManager(), 256, 256, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48);
 			this.mFont.load();
@@ -210,6 +224,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 	@Override
 	protected Scene onCreateScene() {
 		
+		//this.mMusic.play();
+		
 		this.context = getApplicationContext();
 		
 		//Stop screwing up locations when replaying the game
@@ -305,6 +321,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 							}
 							Log.i(TAG,"Other player moved!");
 							//other player moved
+							Log.i(TAG, "Other player moved, their location is: "+otherPlayerLocationPair.first+" , "+otherPlayerLocationPair.second);
 							player2.setPosition((otherPlayerLocationPair.first+1)*47,otherPlayerLocationPair.second*47);
 							isTurn = true;
 						}
@@ -376,6 +393,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 								android.os.SystemClock.sleep(timeBetweenServerCalls);
 							}
 							//other player moved
+							Log.i(TAG, "Other player moved, their location is: "+otherPlayerLocationPair.first+" , "+otherPlayerLocationPair.second);
 							player2.setPosition((otherPlayerLocationPair.first+1)*47,otherPlayerLocationPair.second*47);
 							isTurn = true;
 						}
@@ -449,6 +467,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 								android.os.SystemClock.sleep(timeBetweenServerCalls);
 							}
 							//other player moved
+							Log.i(TAG, "Other player moved, their location is: "+otherPlayerLocationPair.first+" , "+otherPlayerLocationPair.second);
 							player2.setPosition((otherPlayerLocationPair.first)*47,otherPlayerLocationPair.second*47);
 							isTurn = true;
 						}
@@ -520,6 +539,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 								android.os.SystemClock.sleep(timeBetweenServerCalls);
 							}
 							//other player moved
+							Log.i(TAG, "Other player moved, their location is: "+otherPlayerLocationPair.first+" , "+otherPlayerLocationPair.second);
 							player2.setPosition((otherPlayerLocationPair.first)*47,otherPlayerLocationPair.second*47);
 							isTurn = true;
 						}
@@ -592,6 +612,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 							
 						}
 						//other player moved
+						Log.i(TAG, "Other player moved, their location is: "+otherPlayerLocationPair.first+" , "+otherPlayerLocationPair.second);
 						player2.setPosition((otherPlayerLocationPair.first)*47,otherPlayerLocationPair.second*47);
 						isTurn = true;
 					}
@@ -628,7 +649,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		//CurrentPlayerLocation.setPlayerLocation(6, 5);
 		player = new Sprite(376,0, this.playerTexture, getVertexBufferObjectManager());
 		currentPlayerLocation.setPlayerLocation(8, 0,playerNumber);
-		cloud.addPlayer(playerNumber, 8, 0);
+		//cloud.addPlayer(playerNumber, 8, 0);
 
 		//Placeholder location values, replace later!
 		robot1 = new Sprite(47,0, this.robotTexture, getVertexBufferObjectManager());
@@ -657,9 +678,21 @@ public class UICanvas extends SimpleBaseGameActivity {
 		deadRobot3 = new Sprite(1002,900, this.deadRobotTexture, getVertexBufferObjectManager());// {
 		RobotLocations.setDeadRobotLocation(13,13);
 		
-		if(usingMultiplayer){
+		if((usingMultiplayer) && playerNumber == 1){
 			player2 = new Sprite(327,177, this.player2Texture, getVertexBufferObjectManager());// {
 			otherPlayerLocation.setPlayerLocation(6, 5, otherPlayerNumber);
+			cloud.addPlayer(otherPlayerNumber, 6, 5);
+			
+			cloud.addPlayer(playerNumber, 8, 0);
+		}
+		else if ((usingMultiplayer) && playerNumber == 2){
+			player = new Sprite(327,177, this.player2Texture, getVertexBufferObjectManager());// {
+			currentPlayerLocation.setPlayerLocation(6, 5, playerNumber);
+			cloud.addPlayer(playerNumber, 6, 5);
+			
+			player2 = new Sprite(376,0, this.playerTexture, getVertexBufferObjectManager());
+			otherPlayerLocation.setPlayerLocation(8, 0,otherPlayerNumber);
+			cloud.addPlayer(otherPlayerNumber, 8, 0);
 		}
 	
 		scene.attachChild(player);
@@ -701,6 +734,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		i.putExtra("didWin", false);
 		i.putExtra("score", score);
 		startActivityForResult(i,0);
+		this.mMusic.pause();
 		finish();
 	}
 
@@ -710,6 +744,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		i.putExtra("didWin", true);
 		i.putExtra("score", score);
 		startActivityForResult(i,0);
+		this.mMusic.pause();
 		finish();
 	}
 	
