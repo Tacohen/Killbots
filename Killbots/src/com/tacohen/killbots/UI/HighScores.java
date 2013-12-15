@@ -51,8 +51,6 @@ public class HighScores extends Activity{
 	}
 	
 	private void UpdateUI(){
-
-		
 		
 		TextView nameText1 = (TextView) findViewById(R.id.nameText1);
 		TextView scoreText1 = (TextView) findViewById(R.id.scoreText1);
