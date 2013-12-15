@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.andengine.ui.activity.SimpleBaseGameActivity"/>
-<fullyQualifiedTypeName name="at.bartinger.candroid.renderable.Sprite"/>
-<fullyQualifiedTypeName name="com.tacohen.killbots.Logic.Ring"/>
 <fullyQualifiedTypeName name="android.view.MotionEvent"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.CurrentPlayerLocation"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.PlayerMovement"/>
@@ -60,4 +57,7 @@
 <fullyQualifiedTypeName name="com.tacohen.killbots.UI.Opening"/>
 <fullyQualifiedTypeName name="com.tacohen.cloud.OtherPlayerLocation"/>
 <fullyQualifiedTypeName name="android.widget.Toast"/>
+<fullyQualifiedTypeName name="org.andengine.engine.Engine"/>
+<fullyQualifiedTypeName name="org.andengine.audio.music.MusicFactory"/>
+<fullyQualifiedTypeName name="org.andengine.audio.music.Music"/>
 </qualifiedTypeNameHistroy>

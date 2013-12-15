@@ -1,5 +1,7 @@
 package com.tacohen.killbots.UI;
 
+import org.andengine.audio.music.Music;
+import org.andengine.audio.music.MusicFactory;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
@@ -28,6 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
@@ -90,18 +93,30 @@ public class UICanvas extends SimpleBaseGameActivity {
 	
 	private static int timeBetweenServerCalls = 2000;//in milliseconds
 
+    private Music mMusic;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, 
+		EngineOptions eo = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, 
 				new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
-	
+		eo.getAudioOptions().setNeedsMusic(true);
+		
+		return eo;
 	}
 
 	@Override
 	protected void onCreateResources() {
 		try {
+			
+			  MusicFactory.setAssetBasePath("music/");
+              try {
+                      this.mMusic = MusicFactory.createMusicFromAsset(this.mEngine.getMusicManager(), this, "MainTheme.mp3");
+                      this.mMusic.setLooping(true);
+              } catch (final IOException e) {
+                      Debug.e("Error", e);
+              }
+
 
 			this.mFont = FontFactory.create(this.getFontManager(), this.getTextureManager(), 256, 256, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48);
 			this.mFont.load();
@@ -207,6 +222,8 @@ public class UICanvas extends SimpleBaseGameActivity {
 
 	@Override
 	protected Scene onCreateScene() {
+		
+		this.mMusic.play();
 				
 		this.context = getApplicationContext();
 		
@@ -712,10 +729,14 @@ public class UICanvas extends SimpleBaseGameActivity {
 
 	public void lose(){
 		Log.i(TAG, "Player has lost!");
+		Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+		// Vibrate for 500 milliseconds
+		v.vibrate(500);
 		Intent i = new Intent(UICanvas.this,GameFinish.class);
 		i.putExtra("didWin", false);
 		i.putExtra("score", score);
 		startActivityForResult(i,0);
+		this.mMusic.pause();
 		finish();
 	}
 
@@ -725,6 +746,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 		i.putExtra("didWin", true);
 		i.putExtra("score", score);
 		startActivityForResult(i,0);
+		this.mMusic.pause();
 		finish();
 	}
 	
@@ -813,5 +835,14 @@ public class UICanvas extends SimpleBaseGameActivity {
 			//RobotLocations.liveRobotLocations.remove(robotsList.get(excludedList.get(i)));
 			robotsList.remove(robotsList.get(excludedList.get(i)));
 		}
+	}
+	
+	@Override
+	public void onBackPressed()
+	{
+		Intent i = new Intent(UICanvas.this,Opening.class);
+		startActivityForResult(i,0);
+		this.mMusic.pause();
+		finish();
 	}
 }
