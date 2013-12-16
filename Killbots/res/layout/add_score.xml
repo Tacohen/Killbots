@@ -45,6 +45,7 @@
 		    android:id="@+id/editName"
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
+		    android:textColor="#FFFFFF"
 		    android:ems="10" >
 
 		    <requestFocus />
@@ -54,6 +55,7 @@
 		    android:id="@+id/enterNameButton"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
+		    android:textColor="#FFFFFF"
 		    android:text="Submit!" />
 
 	</LinearLayout>

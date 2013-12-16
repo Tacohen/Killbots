@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
+import java.util.Locale;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -88,6 +91,7 @@ public class Cloud {
 	public HashMultimap<Integer, Pair<String,Integer>> getHighScores(){
 		HashMultimap<Integer, Pair<String,Integer>> fullMap = HashMultimap.create(5, 2);
 		try{
+			Log.i(TAG, "Attempting to connect with Heroku!");
 			HttpClient client = new DefaultHttpClient();
 			URI website = new URI("http://killbots.herokuapp.com/scores/HighScores");
 			HttpGet request = new HttpGet();
@@ -138,7 +142,6 @@ public class Cloud {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} 
-
 		
 		return fullMap;
 	}
@@ -202,7 +205,10 @@ public class Cloud {
 	public void sendHighScore(String name, int score, int place ){
 		try {
 			//tacohen note: login should be something like: /users/login?username=admin&lat=31&lng=30&password=123
-
+			
+			name = name.trim();//spaces cause JSON crashes!!!
+			name = name.toUpperCase(Locale.US);
+			
 			HttpClient client = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost("http://killbots.herokuapp.com/scores/addScore?score="+score+"&name="+name+"&place="+place);
 			httpPost.setHeader(new BasicHeader("Content-type", "application/json"));
