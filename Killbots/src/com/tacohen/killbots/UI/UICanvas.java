@@ -518,7 +518,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 					if ((playerMovement.canPlayerMoveDown(new Pair<Integer, Integer>(currentPlayerLocation.getPlayerXLocation(playerNumber), currentPlayerLocation.getPlayerYLocation(playerNumber))) && isTurn)){
 						player.setPosition((player.getX()),player.getY()+47);
 						Log.i(TAG,"Moving down, now location in pixels is: "+(player.getX())+" , "+player.getY()+47);
-						currentPlayerLocation.setPlayerLocation(currentPlayerLocation.getPlayerXLocation(playerNumber), currentPlayerLocation.getPlayerYLocation(playerNumber)+47,playerNumber);
+						currentPlayerLocation.setPlayerLocation(currentPlayerLocation.getPlayerXLocation(playerNumber), currentPlayerLocation.getPlayerYLocation(playerNumber)+1,playerNumber);
 						
 						score -= 1;
 						scoreTextNumbers.setText(score.toString());
