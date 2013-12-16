@@ -660,22 +660,26 @@ public class UICanvas extends SimpleBaseGameActivity {
 		currentPlayerLocation.setPlayerLocation(8, 0,playerNumber);
 		//cloud.addPlayer(playerNumber, 8, 0);
 
-		//Placeholder location values, replace later!
-		robot1 = new Sprite(47,0, this.robotTexture, getVertexBufferObjectManager());
-		RobotLocations.setRobotLocation(1,0);
+		robot4 = new Sprite(376,318, this.robotTexture, getVertexBufferObjectManager());
+		RobotLocations.setRobotLocation(8,7);
 		robotCount += 1;
-
+		
 		robot2 = new Sprite(423,224, this.robotTexture, getVertexBufferObjectManager());
 		RobotLocations.setRobotLocation(9,5);
 		robotCount += 1;
-	
+		
 		robot3 = new Sprite(94,47, this.robotTexture, getVertexBufferObjectManager());
 		RobotLocations.setRobotLocation(2,1);
 		robotCount += 1;
 		
-		robot4 = new Sprite(376,318, this.robotTexture, getVertexBufferObjectManager());
-		RobotLocations.setRobotLocation(8,7);
+		robot1 = new Sprite(47,0, this.robotTexture, getVertexBufferObjectManager());
+		RobotLocations.setRobotLocation(1,0);
 		robotCount += 1;
+		
+	
+		
+		
+		
 	
 		//Place dead robot way off the screen edge do it can't be seen until needed!
 		deadRobot = new Sprite(900,900, this.deadRobotTexture, getVertexBufferObjectManager());// {
@@ -716,11 +720,13 @@ public class UICanvas extends SimpleBaseGameActivity {
 			scene.attachChild(player2);
 		}
 
-
-		robotsList.add(0,robot1);
+		robotsList.add(0,robot4);
 		robotsList.add(1,robot2);
 		robotsList.add(2,robot3);
-		robotsList.add(3,robot4);
+		robotsList.add(3,robot1);
+		
+		
+		
 		
 		deadRobotSpritesUnused.add(deadRobot3);
 		deadRobotSpritesUnused.add(deadRobot2);
@@ -778,6 +784,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 				Log.i(TAG,"old robot "+i+" location is: "+robotLoc.first+","+robotLoc.second);
 				Pair<Integer,Integer> newRobotLocation = moveRobots.desiredRobotLocation(robotLoc.first, robotLoc.second,currentPlayerLocation.getPlayerXLocation(playerNumber),currentPlayerLocation.getPlayerYLocation(playerNumber));
 				Log.i(TAG,"new robot "+i+" location is:"+newRobotLocation.first+" , "+newRobotLocation.second);
+				robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
 				if (RobotLocations.liveRobotLocations.contains(newRobotLocation)){
 					Log.i(TAG, "Robots collided!");
 					//robot dies
@@ -795,7 +802,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 								excludedList.add(i2);
 								//robotsList.remove(robot);
 								//robotsList.remove(robot2);
-								robotCount -= 2;
+								//robotCount -= 2;
 								score += 10;
 								scene.detachChild(robot);
 								scene.detachChild(robot2);
@@ -805,9 +812,7 @@ public class UICanvas extends SimpleBaseGameActivity {
 								RobotLocations.setDeadRobotLocation(RobotLocations.liveRobotLocations.get(i).first,RobotLocations.liveRobotLocations.get(i).second);
 								//RobotLocations.liveRobotLocations.remove(i);
 								//RobotLocations.liveRobotLocations.remove(i2);
-								if (robotCount == 0){
-									win();
-								}
+								
 								i2 = 5;//break out of the for loop!
 							}
 						}else{
@@ -823,17 +828,15 @@ public class UICanvas extends SimpleBaseGameActivity {
 						Sprite robot = robotsList.get(i);
 						scene.detachChild(robot);
 						//robotsList.remove(robot);
-						robotCount -= 1;
+						//robotCount -= 1;
 						score += 5;
 						//RobotLocations.liveRobotLocations.remove(i);
-						if (robotCount == 0){
-							win();
-						}
+						
 					}
 					else{
 						//robot moves
 						RobotLocations.moveRobotLocation(i,newRobotLocation.first, newRobotLocation.second);
-						robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
+						//robotsList.get(i).setPosition(newRobotLocation.first*47, newRobotLocation.second*47);
 					}
 
 				}
@@ -848,6 +851,12 @@ public class UICanvas extends SimpleBaseGameActivity {
 			RobotLocations.liveRobotLocations.remove(excludedList.get(i).intValue());
 			//RobotLocations.liveRobotLocations.remove(robotsList.get(excludedList.get(i)));
 			robotsList.remove(robotsList.get(excludedList.get(i)));
+			
+			robotCount -= 1;
+			
+			if (robotCount == 0){
+				win();
+			}
 		}
 	}
 	

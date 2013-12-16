@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="com.tacohen.killbots.Logic.CurrentPlayerLocation"/>
-<fullyQualifiedTypeName name="com.tacohen.killbots.Logic.PlayerMovement"/>
-<fullyQualifiedTypeName name="com.tacohen.killbots.Logic.GridDimensions"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.RobotLocations"/>
 <fullyQualifiedTypeName name="com.tacohen.killbots.Logic.MoveRobots"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
@@ -60,4 +57,7 @@
 <fullyQualifiedTypeName name="org.andengine.audio.music.MusicFactory"/>
 <fullyQualifiedTypeName name="org.andengine.audio.music.Music"/>
 <fullyQualifiedTypeName name="android.os.Vibrator"/>
+<fullyQualifiedTypeName name="java.util.concurrent.TimeoutException"/>
+<fullyQualifiedTypeName name="java.net.UnknownHostException"/>
+<fullyQualifiedTypeName name="java.util.Locale"/>
 </qualifiedTypeNameHistroy>
